@@ -1,0 +1,297 @@
+{%extends 'partials/base.html'%}
+{%load static%}
+{% load humanize %}
+{%load crispy_forms_tags%}
+
+{%block title%}Checkout{%endblock%}
+{% block content %}
+
+
+<style>
+    .form-control {
+        /* border: 2px solid blue; */
+        border-radius: 13px;
+        padding: 10px 12px;
+    }
+
+    #location-search {
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 2px solid grey
+    }
+</style>
+
+<!-- Consent Modal -->
+<div id="consentModal"
+    class="fixed container inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
+        <!-- Close Button -->
+
+
+        <!-- Modal Content -->
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Attention!</h2>
+        <!-- <p class="text-gray-600 mb-4">
+            This is the payment page. Users must conscider:
+        </p> -->
+        <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
+            <li>Payments are non-refundable once processed.</li>
+            <li>Ensure that you have entered all details accurately.</li>
+            <li>Make sure to upload a proof of payment made.</li>
+        </ul>
+
+        <div class="flex w-full">
+            <button id="closeModal" class="btn bg-warning rounded-5 w-100">I understand</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the modal
+        var modal = document.getElementById("consentModal");
+
+        // Display the modal when the page loads
+        modal.classList.remove("hidden");
+
+        // Get the element that closes the modal
+        var closeModal = document.getElementById("closeModal");
+
+        // Close the modal when the user clicks the close button
+        closeModal.onclick = function () {
+            modal.classList.add("hidden");
+        };
+
+        // Close the modal if the user clicks outside the modal content
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.classList.add("hidden");
+            }
+        };
+    });
+
+</script>
+
+<h2 class="h2 font-bold mb-3">Almost there!</h2>
+<ul class="steps my-2 w-full">
+    <li data-content="✓" class="step step-warning">Shop</li>
+    <li data-content="!" class="step step-warning">Payment</li>
+    <li data-content="" class="step">Checkout</li>
+
+</ul>
+
+
+<div class="container d-flex my-3 justify-center align-items-center">
+    <div class="stats shadow">
+        <div class="stat my-2 text-center">
+            <div class="stat-title">To pay</div>
+            <div class="stat-value">₦ {{ total_price|intcomma }}</div>
+            <div class="stat-desc text-it mt-2">Free delivery</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="bg-white rounded-lg shadow-sm p-3 w-full max-w-3xl">
+        <div class="flex flex-col md:flex-row items-center justify-between mb-2">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="{%static 'media/Logo.png'%}" alt="Company Logo" class="w-12 h-12 mr-4">
+                <h1 class="text-2xl font-bold text-gray-800">YumYum Foodx</h1>
+            </div>
+
+        </div>
+
+        <div id="account-details" class="mt-6 hidden">
+            <!-- <p class="font-bold">Select a payment method</p> -->
+            <h4 id="account-name" class="text-lg font-semibold text-center"></h4>
+            <p id="account-number" class="text-center font-bold text-2xl text-it mt-2"></p>
+            <div class="flex justify-center mt-4">
+                <img id="account-qr" class="w-40 h-40" src="" alt="QR Code" />
+            </div>
+            <small class="text-center text-gray-500 mt-4">Or scan code to copy the account number.</small>
+        </div>
+
+        
+
+        <div class="mt-6 text-center text-gray-500 text-sm">
+            <p class="font-bold mb-2">Select a payment method.</p>
+        </div>
+        <div class="flex justify-around mb-6">
+            {% for account in accounts %}
+            <button type="button" class="bg-warning border rounded-4 py-2 px-4 focus:outline-none"
+                onclick="showAccountDetails('{{ account.name }}')">
+                {{ account.name }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+
+</div>
+
+<script>
+    const accounts = {
+        {% for account in accounts %}
+    "{{ account.name }}": {
+        "name": "{{ account.name }} Account",
+            "number": "{{ account.number }}",
+                "qr_code": "data:image/png;base64,{{ account.qr_code }}"
+    },
+    {% endfor %}
+    };
+
+    function showAccountDetails(accountName) {
+        const account = accounts[accountName];
+        document.getElementById('account-name').innerText = account.name;
+        document.getElementById('account-number').innerText = account.number;
+        document.getElementById('account-qr').src = account.qr_code;
+        document.getElementById('account-details').classList.remove('hidden');
+    }
+</script>
+<br>
+<hr>
+<br>
+<!-- <p>Total amount to pay: ${{ total_price }}</p> -->
+<h3 class="h4 font-bold">Payment</h3>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{checkout_form|crispy}}
+    <br>
+    <h3 class="h4 font-bold">Delivery</h3>
+
+
+    {{ address_form|crispy }}
+    <div class="flex flex-column my-3">
+        <p class="">Confirm delivery address.</p>
+        <div id="map" style="height: 250px; width: 100%; border-radius: 15px;"></div>
+
+    </div>
+    <!-- <button type="button" id="current-location-btn">Use Current Location</button> -->
+    <div class="d-flex my-2 gap-2 d-none">
+        <input type="text" id="location-search" placeholder="Search location..." />
+        <button type="button" id="search-btn">Search</button>
+    </div>
+    <div class="form-control">
+        <label class="label cursor-pointer">
+            <span class="label-text">I have paid <span class="text-it">₦ {{ total_price|intcomma }}</span></span>
+            <input type="checkbox" class="checkbox checkbox-primary" />
+        </label>
+        <label class="label cursor-pointer">
+            <span class="label-text">I have uploaded a proof of payment</span>
+            <input type="checkbox" class="checkbox checkbox-primary" />
+        </label>
+    </div>
+
+    <a class="bg-warning my-3 d-flex justify-center align-items-center w-full btn btn-lg rounded-5" href="{%url 'shop:order_confirm'%}" >Place Order</a>
+
+    <div class="text-center my-3 d-none">
+        <button type="submit"
+            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Place my
+            order</button>
+    </div>
+</form>
+
+
+
+<!-- Include Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/leaflet-3d-view/dist/leaflet-3d-view.js"></script>
+
+<script>
+    let map;
+    let marker;
+    let latitudeField = document.querySelector('input[name="latitude"]');
+    let longitudeField = document.querySelector('input[name="longitude"]');
+
+    function initMap() {
+        // Default location in case geolocation fails
+        const defaultLocation = { lat: -34.397, lng: 150.644 };
+
+        // Create a map centered at the default location
+        map = L.map('map').setView([defaultLocation.lat, defaultLocation.lng], 15);
+
+        // Set the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Add a draggable marker at the default location
+        marker = L.marker([defaultLocation.lat, defaultLocation.lng], { draggable: true }).addTo(map);
+
+        // Update the latitude and longitude fields on marker drag
+        marker.on('dragend', function (event) {
+            const position = marker.getLatLng();
+            latitudeField.value = position.lat;
+            longitudeField.value = position.lng;
+        });
+
+        // Set the initial latitude and longitude
+        latitudeField.value = defaultLocation.lat;
+        longitudeField.value = defaultLocation.lng;
+
+        // Try to get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const userLocation = { lat: lat, lng: lng };
+
+                // Center the map on the user's location
+                map.setView(userLocation, 15);
+                marker.setLatLng(userLocation);
+                latitudeField.value = lat;
+                longitudeField.value = lng;
+            }, function () {
+                alert("Unable to retrieve your location. The map is centered on the default location.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser. The map is centered on the default location.");
+        }
+
+        // Handle use current location button
+        document.getElementById('current-location-btn').onclick = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const userLocation = { lat: lat, lng: lng };
+                    map.setView(userLocation, 15);
+                    marker.setLatLng(userLocation);
+                    latitudeField.value = lat;
+                    longitudeField.value = lng;
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        };
+
+        // Handle search location button
+        const geocoder = L.Control.Geocoder.nominatim();
+        document.getElementById('search-btn').onclick = function () {
+            const searchText = document.getElementById('location-search').value;
+            geocoder.geocode(searchText, function (results) {
+                if (results.length > 0) {
+                    const result = results[0];
+                    map.setView(result.center, 15);
+                    marker.setLatLng(result.center);
+                    latitudeField.value = result.center.lat;
+                    longitudeField.value = result.center.lng;
+                } else {
+                    alert("Location not found");
+                }
+            });
+        };
+    }
+
+
+    // Initialize the map when the document is ready
+    document.addEventListener('DOMContentLoaded', initMap);
+</script>
+{% endblock %}

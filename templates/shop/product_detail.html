@@ -1,0 +1,275 @@
+{%extends 'partials/base.html'%}
+{%load static%}
+{%load crispy_forms_tags%}
+
+{%load humanize%}
+{%block title%}Detail page{%endblock%}
+
+{%block content%}
+<style>
+    .img {
+        width: 500px;
+        height: 500px;
+        object-fit: cover;
+    }
+
+    .roundit {
+        border: 2px solid #ffb703;
+    }
+
+    #modal {
+        z-index: 100000;
+    }
+
+    .modal-transition {
+        transition: transform 0.3s ease-out;
+    }
+
+    .bx {
+        color: #4f7c00;
+    }
+
+    #modalBackdrop {
+        z-index: 100000;
+    }
+
+    .quantity-btn {
+        background: #ffb703;
+        width: 25px;
+        height: 25px;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+    input[type="number"] {
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        padding-left: 20px;
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 2px solid #4CAF50; Green border */
+        border-radius: 5px;
+        outline: none;
+        box-sizing: border-box;
+    }
+</style>
+
+
+<div class="my-2 pb-2 d-flex justify-content-between align-items-center">
+    <a href="{%url 'shop:index'%}" class="rounded-5 roundit w-10 h-10 d-flex justify-content-center align-items-center">
+        <i class='bx bx-chevron-left'></i>
+    </a>
+</div>
+
+<div class="d-flex justify-center align-items-center">
+
+    <div class="stack  rounded-4">
+        <div class="card text-primary-content rounded-4 shadow-md">
+            <!-- <div class="card-body"> -->
+            <img class="rounded-4 img" src="{{product.image.url}}" alt="">
+            <!-- </div> -->
+        </div>
+        <div class="card text-primary-content rounded-4 mt-2 shadow">
+            <div class="card-body">
+                <h2 class="card-title">{{product.name}}</h2>
+                <p>{{product.name}}</p>
+            </div>
+        </div>
+        <div class="card text-primary-content rounded-4 mt-2 shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title">{{product.name}}</h2>
+                <p>{{product.name}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+<div class="">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="h3">{{product.name}}</h3>
+        <h3 class="font-bold h3">₦ {{product.price|intcomma}}</h3>
+
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="h4"><span><i class='bx pt-2 bx-timer'></i></span> 45 mins.</h5>
+            <!-- <small class="text-muted">2k rating</small> -->
+    </div>
+    <br>
+
+    <h2 class="h2 mb-2" data-aos="fade-up">
+        Description
+    </h2>
+    <p class="text-grey-400" data-aos="fade-down">
+        {{product.description}}
+    </p>
+
+
+</div>
+
+
+<!-- Open the modal using ID.showModal() method -->
+
+<div class="text-center my-3">
+    <a id="openModal" data-aos="zoom-in-right"
+        class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Add to cart</a>
+</div>
+
+
+
+
+<!-- Modal backdrop -->
+<div id="modalBackdrop" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden"
+    data-aos="zoom-in">
+    <!-- Modal container -->
+    <div id="modalContainer" class="fixed bottom-0 inset-x-0 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+        <div id="modalContent"
+            class="bg-white rounded-t-lg sm:rounded-lg transform transition-all modal-transition sm:w-full sm:max-w-lg w-full">
+            <!-- Modal content -->
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 ">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">How many portions of <span
+                        class="font-bold" style="color: #4f7c00;">'{{product.name}}'</span> ?</h3>
+
+                <form action="{%url 'shop:cart_add' product.id%}" method="post" class="flex flex-col gap-2">
+
+                    {% csrf_token %}
+                    <!-- Quantity Input with Increment and Decrement Buttons -->
+                    <div class="quantity-container flex items-center justify-center gap-2 my-3">
+                        <button type="button" class="decrement-btn quantity-btn"
+                            onclick="decrementQuantity()">-</button>
+                        <input type="number" name="quantity" id="quantityInput" value="1" min="1"
+                            class="quantity-input text-center w-12 py-2 rounded" />
+                        <button type="button" class="increment-btn quantity-btn"
+                            onclick="incrementQuantity()">+</button>
+                    </div>
+
+
+                    <script>
+                        function incrementQuantity() {
+                            const quantityInput = document.getElementById('quantityInput');
+                            let currentValue = parseInt(quantityInput.value);
+                            quantityInput.value = currentValue + 1;
+                        }
+
+                        function decrementQuantity() {
+                            const quantityInput = document.getElementById('quantityInput');
+                            let currentValue = parseInt(quantityInput.value);
+                            if (currentValue > 1) {  // Ensure quantity doesn't go below 1
+                                quantityInput.value = currentValue - 1;
+                            }
+                        }
+                    </script>
+
+
+                    <!-- <button>Add to Cart</button> -->
+                    <div class="d-flex justify-center align-items-center gap-2 flex-column">
+                        <button data-aos="zoom-in-right"
+                            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Confirm
+                        </button>
+                        <a style="cursor: pointer;" id="closeModal" class="w-full sm:w-auto sm:ml-3 rounded-5">
+                            cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <!-- Close button -->
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse rounded-b-lg">
+            <div class="text-center my-3">
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<br><br>
+<script>
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalContent = document.getElementById('modalContent');
+    const openModalBtn = document.getElementById('openModal');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    function openModal() {
+        modalBackdrop.classList.remove('hidden');
+        setTimeout(() => {
+            modalContent.classList.remove('translate-y-full', 'sm:opacity-0', 'sm:translate-y-0');
+            modalContent.classList.add('translate-y-0', 'sm:opacity-100');
+        }, 10);
+    }
+
+    function closeModal() {
+        modalContent.classList.remove('translate-y-0', 'sm:opacity-100');
+        modalContent.classList.add('translate-y-full', 'sm:opacity-0', 'sm:translate-y-0');
+        setTimeout(() => {
+            modalBackdrop.classList.add('hidden');
+        }, 300);
+    }
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeModal();
+    });
+</script>
+
+{%if related_products%}
+<div class="flex flex-col">
+    <h6 class="h6 font-bold">Related products <span><i class='bx bxs-star'></i></span></h6>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Product Card 1 -->
+        {%for p in related_products%}
+        <div class="overflow-hidden" data-aos="zoom-in-up">
+            <a href="{%url 'shop:product_detail' p.id%}">
+
+                <img src="{{p.image.url}}" alt="Product 1" class="w-full rounded-4 border h-48 object-cover">
+                <div class="p-2">
+                    <h2 class="text-lg font-semibold mb-2">{{p.name}}</h2>
+                    <!-- <p class="text-gray-600 mb-2">Comfortable and trendy</p> -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold dark">₦ {{ p.price|intcomma }}
+                        </span>
+                        <a href="#" class="bg-warning rounded-5 flex justify-center align-items-center h-6 w-6 p-3">
+                            <i class='bx bx-plus'></i>
+                        </a>
+                        <!-- <button class="bg-blue-500 text-white d-flex justify-center align-items-center rounded-5 hover:bg-blue-600">Add to Cart</button> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {%endfor%}
+    </div>
+</div>
+<!-- <br> -->
+<hr>
+{%endif%}
+<div class="d-flex flex-col">
+    <h2 class="h2 mb-2">
+        Like this product ?
+    </h2>
+    <div class="flex justify-evenly p-2">
+
+        <a href="#" class="btn btn-ghost btn-md d-flex gap-2">
+            <i class='bx bxs-star'></i>
+            <span>Review</span>
+        </a>
+        <a href="#" class="btn btn-ghost btn-md d-flex gap-2">
+            <i class='bx bxs-heart'></i>
+            <span>Review</span>
+        </a>
+
+    </div>
+</div>
+<hr>
+
+<br><br><br>
+
+{%endblock%}

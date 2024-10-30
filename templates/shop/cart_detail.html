@@ -1,0 +1,125 @@
+<!-- templates/cart/detail.html -->
+{%extends 'partials/base.html'%}
+{%load static%}
+{% load humanize %}
+
+{%block title%}Shopping cart{%endblock%}
+
+{%block content%}
+<style>
+    .text-it {
+
+        color: #4f7c00
+    }
+
+    input[type="number"] {
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        /* padding-left: 20px; */
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 2px solid #4CAF50; Green border */
+        border-radius: 5px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .quantity-btn {
+        background: #ffb703;
+        width: 25px;
+        height: 25px;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* margin-top: 10px; */
+    }
+
+    .quantity-btn:hover {
+        background: #b98500;
+        width: 30px;
+        height: 30px;
+
+        /* margin-top: 10px; */
+    }
+</style>
+
+<div class="my-2 pb-2 d-flex justify-content-between align-items-center">
+    <a href="{%url 'shop:index'%}" class="rounded-5 roundit w-10 h-10 d-flex justify-content-center align-items-center">
+        <i class='bx bx-chevron-left'></i>
+    </a>
+</div>
+
+<!-- templates/cart/detail.html -->
+<div class="d-flex justify-between align-items-center">
+    <h2 class="h2 font-bold">Your Cart</h2>
+    <h2 class="h2 text-it">{{count}} <span class="text-md text-dark"> Items</span></h2>
+
+</div>
+{% if cart %}
+<!-- <div> -->
+{% for item in cart %}
+
+<div class="d-flex gap-2 my-2 p-3 w-full rounded-4 shadow-sm" data-aos="zoom-in-down">
+    <img src="{{item.product.image.url}}" alt="" class="w-24 h-24 object-cover rounded-4">
+    <div class="d-flex flex-column gap-1 p-2 max-w-50">
+        <p class="">{{ item.quantity }}x {{ item.product.name }}</p>
+        <p class="font-bold">₦ {{ item.total_price|intcomma }}</p>
+
+
+
+        <!-- <form action="{% url 'shop:cart_remove' item.product.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn btn-sm w-full btn-ghost text-danger" type="submit">Remove <span><iclass='bx bx-trash'></i></span></button>
+        </form> -->
+    </div>
+    <a href="{%url 'shop:cart_remove' item.product.id%}" class="btn btn-sm btn-ghost text-it">Remove</a>
+</div>
+<!-- <hr> -->
+<br><br><br><br>
+{% endfor %}
+
+<!-- </div> -->
+<hr class="text-it">
+<div class="d-flex flex-column my-3">
+
+    <div class="d-flex justify-between">
+        <h5 class="h5">Sub total</h5>
+        <h5 class="h5 font-bold">₦ {{cart.get_total_price|intcomma}}</h5>
+
+
+    </div>
+    <div class="d-flex justify-between">
+        <h5 class="h5">Delivery</h5>
+        <h5 class="h5 font-bold">Free</h5>
+
+
+    </div>
+    <div class="container my-3">
+        <hr class="text-it">
+
+    </div>
+
+    <div class="d-flex justify-between">
+        <h5 class="h5 font-bold">Total</h5>
+        <h5 class="h5 font-bold">₦ {{cart.get_total_price|intcomma}}</h5>
+
+
+    </div>
+    <div class="text-center my-3">
+        <a href="{% url 'shop:checkout' %}"
+            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Checkout</a>
+    </div>
+</div>
+{% else %}
+<div class="d-flex my-3 h-48 justify-content-center align-items-center flex-column">
+    <i class='bx bx-message-alt-x text-it display-4' ></i>
+    <p>Your cart is empty.</p>
+
+</div>
+{% endif %}
+
+{%endblock content%}
