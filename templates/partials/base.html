@@ -252,7 +252,9 @@
         <div class="navbar-end flex gap-1 align-items-center">
 
             <a href="{%url 'shop:cart_detail'%}" class="{%if request.path == '/cart/'%} d-none{%endif%}">
+                {%if cart_length > 0%}
                 <span class="indicator-item badge badge-primary rounded-4">{{cart_length}}</span>
+                {%endif%}
                 <button class="btn d-flex justify-center w-12 h-12 align-items-center btn-ghost rounded-5"><i
                         class='bx bx-basket text-it fs-3'></i></button>
             </a>
@@ -274,8 +276,8 @@
                             class="{%if request.path == '/errands/'%} text-desk text-xl font-bold {%endif%}"> <span><i
                                     class='bx bx-package'></i></span> Errands</a>
                         <ul class="p-2">
-                            <li><a> <span><i class='bx bx-barcode-reader'></i> </span>Track order</a></li>
-                            <li><a> <span><i class='bx bx-mail-send'></i></span>Have an errand</a></li>
+                            <li><a class='{%if request.path == "/errands/shipping-calculator/"%} text-desk text-xl font-bold {%endif%}' href="{%url 'errands:shipping_calculator'%}"> <span><i class='bx bx-barcode-reader'></i> </span>Calculator</a></li>
+                            <li><a href="{%url 'errands:errand_page'%}" class='{%if request.path == "/errands/errand_page/"%} text-desk text-xl font-bold {%endif%}'> <span><i class='bx bx-mail-send'></i></span>Have an errand</a></li>
                         </ul>
                     </li>
                     <li><a><span><i class='bx bx-question-mark'></i></span>About us</a></li>

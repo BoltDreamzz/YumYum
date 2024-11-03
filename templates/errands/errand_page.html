@@ -1,0 +1,112 @@
+{%extends 'partials/base.html'%}
+{%load static%}
+
+{% load humanize %}
+{%load crispy_forms_tags%}
+
+{%block title%}I have an errand{%endblock%}
+
+{%block content%}
+
+
+
+
+<style>
+    .form-control {
+        /* border: 2px solid blue; */
+        border-radius: 13px;
+        padding: 10px 12px;
+    }
+
+    #location-search {
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 2px solid grey
+    }
+
+    /* From Uiverse.io by andrew-demchenk0 */
+    .info {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        width: 320px;
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        background: #509AF8;
+        border-radius: 8px;
+        box-shadow: 0px 0px 5px -3px #111;
+    }
+
+    .info__icon {
+        width: 20px;
+        height: 20px;
+        transform: translateY(-2px);
+        margin-right: 8px;
+    }
+
+    .info__icon path {
+        fill: #fff;
+    }
+
+    .info__title {
+        font-weight: 500;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .info__close {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    .info__close path {
+        fill: #fff;
+    }
+</style>
+
+
+
+<br><br><br>
+<div class="d-flex flex-col justify-center align-items-center">
+
+    <a href="{%url 'errands:shipping_calculator'%}" class="text-primary font-bold"><span class="badge bg-primary rounded-3 mx-2">New</span>Shipping calculator <i class="bx bx-chevron-right"></i></a>
+    <h2 class="text-4xl text-center font-bold mb-3">Let us handle your delivery.</h2>
+
+</div>
+<br> <br>
+
+<h5 class="h5 mb-4 text-center">Request a dispatch</h5>
+
+<form class="flex flex-col containerise border border-2 border-warning rounded-4 shadow-sm p-3 space-y-3" method="post" enctype="multipart/form-data">
+    <div class="d-flex justify-center mb-3" data-aos="zoom-out-up" data-aos-duration="3000">
+
+        <div class="info shadow shadow-md">
+            <div class="info__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none">
+                    <path fill="#393a37"
+                        d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z">
+                    </path>
+                </svg>
+            </div>
+            <small class="info__title">Please fill carefully, we will use this data during delivery...</small>
+            
+        </div>
+    </div>
+    {% csrf_token %}
+
+
+    {{ form|crispy }}
+
+    <div class="text-center my-3">
+        <button type="submit"
+            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Request dispatch</button>
+    </div>
+</form>
+
+
+
+
+{%endblock%}

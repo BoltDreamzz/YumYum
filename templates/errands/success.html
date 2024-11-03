@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Success</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+    }
+
+    .bg-white {
+        background-color: #ffffff;
+    }
+
+    .text-gray-800 {
+        color: #333333;
+    }
+
+    .text-gray-600 {
+        color: #666666;
+    }
+
+    .bg-blue-500 {
+        background-color: #3b82f6;
+    }
+
+    .bg-blue-600 {
+        background-color: #2563eb;
+    }
+
+    .hover\:bg-blue-600:hover {
+        background-color: #2563eb;
+    }
+
+    .rounded {
+        border-radius: 8px;
+    }
+
+    .rounded-lg {
+        border-radius: 12px;
+    }
+
+    .text-green-500 {
+        color: #10b981;
+    }
+</style>
+
+
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-8 max-w-lg text-center">
+        <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4M7 12a5 5 0 11-10 0 5 5 0 0110 0z"></path>
+        </svg>
+        <h1 class="text-2xl font-semibold text-gray-800 mb-2">Delivery Booked Successfully!</h1>
+        <p class="text-gray-600 mb-6">
+            Thank you for booking with us! Your delivery request has been successfully submitted. We will handle the
+            rest.
+        </p>
+        <a href="{% url 'errands:errand_index' %}"
+            class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+            Book Another Delivery
+        </a>
+        <a href="{% url 'shop:index' %}" class="ml-4 text-blue-500 hover:underline">Return to Home</a>
+    </div>
+</body>
+
+</html>

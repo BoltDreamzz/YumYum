@@ -1,0 +1,168 @@
+{%extends 'partials/base.html'%}
+{%load static%}
+
+{% load humanize %}
+{%load crispy_forms_tags%}
+
+{%block title%}Calculator{%endblock%}
+
+{%block content%}
+
+
+
+
+<style>
+    .form-control {
+        /* border: 2px solid blue; */
+        border-radius: 13px;
+        padding: 10px 12px;
+    }
+
+    #location-search {
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 2px solid grey
+    }
+</style>
+<h2 class="h2 font-bold mb-3 text-center">Shipping calculator</h2>
+<br><br>
+
+{% if total_cost is not None %}
+<div class="container d-flex my-3 justify-center align-items-center">
+    <div class="stats shadow" data-aos="zoom-in-down" data-aos-duration="3000">
+        <div class="stat my-2 text-center">
+            <div class="stat-title">Total cost</div>
+            <div class="stat-value">₦ {{ total_cost|intcomma }}</div>
+            <div class="stat-desc text-it mt-2">Best rates</div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container d-flex my-3 justify-center align-items-center">
+    <div class="stats shadow">
+        <div class="stat my-2 text-center">
+            <div class="stat-title">Total cost</div>
+            <div class="stat-value">₦ 0.00</div>
+            <div class="stat-desc text-it mt-2">Total cost will appear here.</div>
+        </div>
+    </div>
+</div>
+{%endif%}
+
+
+<br><br><br>
+
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+
+    {{ form|crispy }}
+
+    <div class="text-center my-3">
+        <button type="submit"
+            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Calculate</button>
+    </div>
+</form>
+
+
+
+<!-- Include Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/leaflet-3d-view/dist/leaflet-3d-view.js"></script>
+
+<script>
+    let map;
+    let marker;
+    let latitudeField = document.querySelector('input[name="latitude"]');
+    let longitudeField = document.querySelector('input[name="longitude"]');
+
+    function initMap() {
+        // Default location in case geolocation fails
+        const defaultLocation = { lat: -34.397, lng: 150.644 };
+
+        // Create a map centered at the default location
+        map = L.map('map').setView([defaultLocation.lat, defaultLocation.lng], 15);
+
+        // Set the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Add a draggable marker at the default location
+        marker = L.marker([defaultLocation.lat, defaultLocation.lng], { draggable: true }).addTo(map);
+
+        // Update the latitude and longitude fields on marker drag
+        marker.on('dragend', function (event) {
+            const position = marker.getLatLng();
+            latitudeField.value = position.lat;
+            longitudeField.value = position.lng;
+        });
+
+        // Set the initial latitude and longitude
+        latitudeField.value = defaultLocation.lat;
+        longitudeField.value = defaultLocation.lng;
+
+        // Try to get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const userLocation = { lat: lat, lng: lng };
+
+                // Center the map on the user's location
+                map.setView(userLocation, 15);
+                marker.setLatLng(userLocation);
+                latitudeField.value = lat;
+                longitudeField.value = lng;
+            }, function () {
+                alert("Unable to retrieve your location. The map is centered on the default location.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser. The map is centered on the default location.");
+        }
+
+        // Handle use current location button
+        document.getElementById('current-location-btn').onclick = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const userLocation = { lat: lat, lng: lng };
+                    map.setView(userLocation, 15);
+                    marker.setLatLng(userLocation);
+                    latitudeField.value = lat;
+                    longitudeField.value = lng;
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        };
+
+        // Handle search location button
+        const geocoder = L.Control.Geocoder.nominatim();
+        document.getElementById('search-btn').onclick = function () {
+            const searchText = document.getElementById('location-search').value;
+            geocoder.geocode(searchText, function (results) {
+                if (results.length > 0) {
+                    const result = results[0];
+                    map.setView(result.center, 15);
+                    marker.setLatLng(result.center);
+                    latitudeField.value = result.center.lat;
+                    longitudeField.value = result.center.lng;
+                } else {
+                    alert("Location not found");
+                }
+            });
+        };
+    }
+
+
+    // Initialize the map when the document is ready
+    document.addEventListener('DOMContentLoaded', initMap);
+</script>
+
+{%endblock%}
