@@ -15,8 +15,8 @@ SECRET_KEY = 'django-insecure-k)s%6y&x0s1%y502=nq&&g#k0bo^570xyn@jw@u3qx&2a6#app
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['yumyum-d1wd.onrender.com', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://yumyum-d1wd.onrender.com']
+ALLOWED_HOSTS = ['yumyum-8n4j.onrender.com', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://yumyum-8n4j.onrender.com']
 
 # settings.py
 CART_SESSION_ID = 'cart'
