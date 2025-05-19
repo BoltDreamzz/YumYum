@@ -14,7 +14,8 @@ urlpatterns = [
     path('update-cart/<int:product_id>/', views.update_cart, name='update_cart'),
     path('checkout/', views.checkout, name='checkout'),
     path('confirmation-page/', views.order_confirm, name='order_confirm'),
-
+    path('product/<int:product_id>/review/', views.post_review, name='post_review'),
+    path('review/<int:review_id>/reply/', views.post_reply, name='post_reply'),
 
 
 ]

@@ -43,6 +43,7 @@
         align-items: center;
         margin-top: 10px;
     }
+
     input[type="number"] {
         width: 50px;
         height: 50px;
@@ -56,6 +57,76 @@
         border-radius: 5px;
         outline: none;
         box-sizing: border-box;
+    }
+
+    .rating-stars {
+        direction: rtl;
+        display: inline-flex;
+    }
+
+    .rating-stars input[type="radio"] {
+        display: none;
+    }
+
+    .rating-stars label {
+        font-size: 2rem;
+        color: lightgray;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .rating-stars input[type="radio"]:checked~label,
+    .rating-stars label:hover,
+    .rating-stars label:hover~label {
+        color: gold;
+    }
+
+    @keyframes blinkHighlight {
+        0% {
+            background-color: yellow;
+        }
+
+        100% {
+            background-color: transparent;
+        }
+    }
+
+    .blink {
+        animation: blinkHighlight 0.5s alternate;
+        animation-iteration-count: 6;
+    }
+
+    .blink-new {
+        animation: blink-yellow 0.6s alternate 6;
+    }
+
+    @keyframes blink-yellow {
+        from {
+            background-color: #fefcbf;
+        }
+
+        /* Yellow-100 */
+        to {
+            background-color: transparent;
+        }
+    }
+
+    .rating label {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .rating input:checked~label {
+        color: #f59e0b;
+        /* orange-500 */
+    }
+
+    .rating label:hover,
+    .rating label:hover~label {
+        color: #fbbf24;
+        /* orange-300 on hover */
     }
 </style>
 
@@ -102,7 +173,7 @@
     </div>
     <br>
 
-    <h2 class="h2 mb-2" data-aos="fade-up">
+    <h2 class="h4 mb-2 font-bold" data-aos="fade-up">
         Description
     </h2>
     <p class="text-grey-400" data-aos="fade-down">
@@ -252,24 +323,215 @@
 <hr>
 {%endif%}
 <div class="d-flex flex-col">
-    <h2 class="h2 mb-2">
-        Like this product ?
+    <h2 class="h4 font-bold mb-4">
+        Reviews for {{ product.name }}
     </h2>
-    <div class="flex justify-evenly p-2">
 
-        <a href="#" class="btn btn-ghost btn-md d-flex gap-2">
-            <i class='bx bxs-star'></i>
-            <span>Review</span>
-        </a>
-        <a href="#" class="btn btn-ghost btn-md d-flex gap-2">
-            <i class='bx bxs-heart'></i>
-            <span>Review</span>
-        </a>
+
+    <!-- Review Form -->
+    <form id="reviewForm" class="mt-6 max-w-md p-3 bg-base-200 rounded-lg" method="POST">
+        {% csrf_token %}
+        <div class="mb-2">
+            <label for="content" class="block font-semibold">Your Review</label>
+            <textarea id="content" name="content" rows="4" required class="w-full px-3 py-2 border rounded"></textarea>
+        </div>
+        <div class="mb-2">
+            <label class="block font-semibold">Your Rating</label>
+            <div class="flex space-x-1 text-yellow-400">
+                {% for i in "12345" %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required class="hidden" />
+                <label for="star{{ i }}" class="cursor-pointer text-2xl">★</label>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" id="submitReview" class="bg-orange-500 text-white px-4 py-2 rounded">Post Review</button>
+    </form>
+    <br>
+
+
+    <div class="space-y-4" id="reviewsContainer">
+        <!-- Review 1 -->
+        {% for review in product.reviews.all %}
+        {% include 'partials/single_review.html' with review=review %}
+        {%empty%}
+        <p class="text-gray-500 flex my-3 flex-col text-center my-5">
+            <i class="bx bx-message-alt-x display-1 mb-3 text-gray-500" ></i>
+            No reviews yet. Be the first to review this product!</p>
+        {%endfor%}
 
     </div>
+
+
+
 </div>
 <hr>
+<script>
+    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const button = document.getElementById('submitReview');
+        button.disabled = true;
+        button.innerText = 'Sending...';
 
-<br><br><br>
+        fetch("{% url 'shop:post_review' product.id %}", {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                button.disabled = false;
+                button.innerText = 'Post Review';
+
+                if (data.login_required) {
+                    Toastify({ text: data.error, backgroundColor: "red" }).showToast();
+                    setTimeout(() => {
+                        window.location.href = "{% url 'account_login' %}?next={{ request.path }}";
+                    }, 2000);
+                } else if (data.review_html) {
+                    Toastify({ text: data.message, backgroundColor: "green" }).showToast();
+                    form.reset();
+
+                    const container = document.getElementById('reviewsContainer');
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = data.review_html;
+                    const newReview = tempDiv.firstElementChild;
+                    newReview.classList.add('blink');
+                    container.prepend(newReview);
+                    newReview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    Toastify({ text: data.error, backgroundColor: "red" }).showToast();
+                }
+            })
+            .catch(() => {
+                Toastify({ text: "Error posting review.", backgroundColor: "red" }).showToast();
+                button.disabled = false;
+                button.innerText = 'Post Review';
+            });
+    });
+
+    // Reply form handlers
+    document.addEventListener('submit', function (e) {
+        if (e.target.matches('.replyForm')) {
+            e.preventDefault();
+            const form = e.target;
+            const reviewId = form.getAttribute('data-review-id');
+            const button = form.querySelector('.replyBtn');
+            button.disabled = true;
+            button.innerText = 'Sending...';
+
+            fetch(`/review/${reviewId}/reply/`, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    button.disabled = false;
+                    button.innerText = 'Reply';
+
+                    if (data.reply_html) {
+                        Toastify({ text: data.message, backgroundColor: "green" }).showToast();
+                        form.reset();
+                        form.classList.add('hidden');
+
+                        const replyContainer = document.getElementById(`replies-${reviewId}`);
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data.reply_html;
+                        const newReply = tempDiv.firstElementChild;
+                        newReply.classList.add('blink');
+                        replyContainer.appendChild(newReply);
+                        newReply.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        Toastify({ text: data.error, backgroundColor: "red" }).showToast();
+                    }
+                })
+                .catch(() => {
+                    Toastify({ text: "Error posting reply.", backgroundColor: "red" }).showToast();
+                    button.disabled = false;
+                    button.innerText = 'Reply';
+                });
+        }
+    });
+</script>
+
+
+<br>
+<!-- Reviews Section -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Submit review form
+        const reviewForm = document.getElementById("reviewForm");
+        if (reviewForm) {
+            reviewForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.html) {
+                            const container = document.querySelector(".space-y-4");
+                            container.insertAdjacentHTML('afterbegin', data.html);
+                            scrollAndBlink(`review-${data.id}`);
+                        }
+                    });
+            });
+        }
+
+        // Submit reply form (event delegation)
+        document.body.addEventListener("submit", function (e) {
+            if (e.target.classList.contains("replyForm")) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const reviewId = form.dataset.reviewId;
+                fetch(`/post-reply/${reviewId}/`, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.html) {
+                            const container = document.querySelector(`#replies-${data.review_id}`);
+                            container.insertAdjacentHTML('beforeend', data.html);
+                            scrollAndBlink(`reply-${data.id}`);
+                        }
+                    });
+            }
+        });
+
+        function scrollAndBlink(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "center" });
+                element.classList.add("blink-new");
+                setTimeout(() => {
+                    element.classList.remove("blink-new");
+                }, 3000);
+            }
+        }
+
+    });
+</script>
+
+
+<br><br>
+
+
 
 {%endblock%}

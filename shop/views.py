@@ -20,15 +20,28 @@ def index(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = CartItemForm()
-    # Fetch related products, excluding the current product
+
+    # Get product reviews and their replies
+    reviewd = product.reviews.select_related('user').prefetch_related('replies__user')
+    reviews = reviewd.order_by('-created')[:5]
+
+
+    # Forms for review and reply
+    review_form = ReviewForm()
+    reply_form = ReviewReplyForm()
+
+    # Related products
     related_products = Product.objects.filter(category=product.category).exclude(id=product.id)
-    
+
     return render(request, 'shop/product_detail.html', {
         'product': product,
         'related_products': related_products,
         'form': form,
+        'reviews': reviews,
+        'review_form': review_form,
+        'reply_form': reply_form,
+        'reviewd': reviewd,
     })
-    
     
 # shop/views.py
 from django.shortcuts import render, redirect, get_object_or_404
@@ -253,3 +266,80 @@ def checkout(request):
 def order_confirm(request):
     # messages.success(request, 'Order placed !')
     return render(request, 'shop/order_confirm.html')
+
+
+
+# views.py
+
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from .models import Product, Review, ReviewReply
+from .forms import ReviewForm, ReviewReplyForm
+from django.template.loader import render_to_string
+
+
+@login_required
+# @csrf_exempt
+# def post_review(request, product_id):
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST)
+#         if form.is_valid():
+#             review = form.save(commit=False)
+#             review.product_id = product_id
+#             review.user = request.user
+#             review.save()
+
+#             html = render_to_string('partials/single_review.html', {'review': review}, request=request)
+#             return JsonResponse({'message': 'Review posted successfully!', 'html': html}, status=200)
+#         else:
+
+#             return JsonResponse({'error': 'Invalid form data.'}, status=400)
+#     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@login_required
+def post_review(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        content = request.POST.get('content')
+        rating = request.POST.get('rating')
+
+        if not content or not rating:
+            return JsonResponse({'error': 'Content and rating are required.'})
+
+        review = Review.objects.create(
+            product=product,
+            user=user,
+            content=content,
+            rating=int(rating),
+        )
+
+    # Add a flag for just created reviews
+        review.just_created = True
+        review_html = render_to_string('partials/single_review.html', {'review': review}, request=request)
+
+
+        return JsonResponse({
+            'review_html': review_html,
+            'message': 'Review posted successfully!',
+        })
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required
+@csrf_exempt
+def post_reply(request, review_id):
+    if request.method == 'POST':
+        form = ReviewReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.review_id = review_id
+            reply.user = request.user
+            reply.save()
+
+            html = render_to_string('partials/single_reply.html', {'reply': reply}, request=request)
+            return JsonResponse({'message': 'Reply posted successfully!', 'html': html, 'review_id': review_id}, status=200)
+        return JsonResponse({'error': 'Invalid form data.'}, status=400)
+    return JsonResponse({'error': 'Only POST allowed'}, status=405)

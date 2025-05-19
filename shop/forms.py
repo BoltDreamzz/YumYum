@@ -20,3 +20,35 @@ class DeliveryAddressForm(forms.ModelForm):
             'latitude': forms.HiddenInput(),
             'longitude': forms.HiddenInput(),
         }
+
+
+# forms.py
+
+from django import forms
+from .models import Review, ReviewReply
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['content', 'rating']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control review-input',
+                'rows': 4,
+                'placeholder': 'Share your experience...',
+            }),
+                'rating': forms.RadioSelect(choices=[(i, f'{i} star{"s" if i > 1 else ""}') for i in range(1, 6)]),
+
+        }
+
+class ReviewReplyForm(forms.ModelForm):
+    class Meta:
+        model = ReviewReply
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control reply-input',
+                'rows': 2,
+                'placeholder': 'Write your reply...',
+            })
+        }

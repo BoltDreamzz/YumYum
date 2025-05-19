@@ -100,3 +100,19 @@ class Payment(models.Model):
         return f"Payment {self.payment_reference} for session {self.session_key}"
 
 
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], null=True, blank=True)  # 1 to 5 stars
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} ({self.rating}★)"
+    
+
+class ReviewReply(models.Model):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='replies')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
