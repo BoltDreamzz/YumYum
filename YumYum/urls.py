@@ -28,6 +28,8 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('errands/', include('errands.urls')),
     path('accounts/', include('allauth.urls')),  # Allauth URLs
+    path('blog/', include('blog.urls')),
+    path('tinymce/', include('tinymce.urls')),
 
 
 ]

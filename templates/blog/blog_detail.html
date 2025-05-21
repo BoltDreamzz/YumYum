@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <article class="prose max-w-full mx-auto bg-white p-6 rounded-lg shadow-md relative">
+    <div class="mb-4">
+      <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
+      <p class="text-gray-500 text-sm">
+        By {{ blog.author }} • {{ blog.created_at|date:"F j, Y" }}
+      </p>
+    </div>
+
+    <!-- Reader Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-orange-500 z-50" id="progress-bar"></div>
+
+    <!-- Blog Content -->
+    <div id="blog-content">
+      {{ blog.content|safe }}
+    </div>
+  </article>
+
+  <script>
+    // Reading Progress Bar Logic
+    document.addEventListener('scroll', function () {
+      const content = document.getElementById('blog-content');
+      const progress = document.getElementById('progress-bar');
+      const totalHeight = content.scrollHeight - window.innerHeight;
+      const progressHeight = (window.scrollY / totalHeight) * 100;
+      progress.style.width = progressHeight + '%';
+    });
+  </script>
+{% endblock %}

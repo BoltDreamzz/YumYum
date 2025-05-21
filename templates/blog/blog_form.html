@@ -1,0 +1,114 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-lg mt-10">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">{{ title }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.media }} <!-- Loads TinyMCE JS -->
+
+        <!-- Title Field -->
+        <div class="mb-5">
+            <label for="{{ form.title.id_for_label }}" class="label">
+                <span class="label-text font-semibold text-gray-700">Title</span>
+            </label>
+            {{ form.title }}
+            {% for error in form.title.errors %}
+            <p class="text-red-500 text-sm">{{ error }}</p>
+            {% endfor %}
+            <br>
+            <div role="alert"
+                class="bg-blue-100 mt-2 dark:bg-blue-900 border-l-4 border-blue-500 dark:border-blue-700 text-blue-900 dark:text-blue-100 p-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-200 dark:hover:bg-blue-800 transform hover:scale-105">
+                <svg stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                    class="h-5 w-5 flex-shrink-0 mr-2 text-blue-600" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"
+                        stroke-linejoin="round" stroke-linecap="round"></path>
+                </svg>
+                <p class="text-xs font-semibold">
+                    Info - This is some information for you.
+                </p>
+            </div>
+        </div>
+
+        <!-- Category Field -->
+        <div class="mb-5">
+            <label for="{{ form.category.id_for_label }}" class="label">
+                <span class="label-text font-semibold text-gray-700">Category</span>
+            </label>
+            {{ form.category }}
+            {% for error in form.category.errors %}
+            <p class="text-red-500 text-sm">{{ error }}</p>
+            {% endfor %}
+            <div role="alert"
+                class="bg-blue-100 mt-2 dark:bg-blue-900 border-l-4 border-blue-500 dark:border-blue-700 text-blue-900 dark:text-blue-100 p-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-200 dark:hover:bg-blue-800 transform hover:scale-105">
+                <svg stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                    class="h-5 w-5 flex-shrink-0 mr-2 text-blue-600" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"
+                        stroke-linejoin="round" stroke-linecap="round"></path>
+                </svg>
+                <p class="text-xs font-semibold">
+                    Info - This is some information for you.
+                </p>
+            </div>
+        </div>
+
+        <!-- Content Field -->
+        <div class="mb-6">
+            <label for="{{ form.content.id_for_label }}" class="label">
+                <span class="label-text font-semibold text-gray-700">Content</span>
+            </label>
+            {{ form.content }}
+            {% for error in form.content.errors %}
+            <p class="text-red-500 text-sm">{{ error }}</p>
+            {% endfor %}
+            <div role="alert"
+                class="bg-blue-100 mt-2 dark:bg-blue-900 border-l-4 border-blue-500 dark:border-blue-700 text-blue-900 dark:text-blue-100 p-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-200 dark:hover:bg-blue-800 transform hover:scale-105">
+                <svg stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                    class="h-5 w-5 flex-shrink-0 mr-2 text-blue-600" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 16h-1v-4h1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"
+                        stroke-linejoin="round" stroke-linecap="round"></path>
+                </svg>
+                <p class="text-xs font-semibold">
+                    Info - This is some information for you.
+                </p>
+            </div>
+        </div>
+        <div class="mb-6 flex flex-col space-y-4">
+            <!-- Meta Title -->
+             <label for="{{ form.meta_title.id_for_label }}" class="label">
+                <span class="label-text font-semibold text-gray-700">Meta title</span>
+            </label>
+            {{ form.meta_title }}
+
+            <!-- Meta Description -->
+            {{ form.meta_description }}
+
+            <!-- Focus Keyword -->
+            {{ form.focus_keyword }}
+
+        </div>
+
+        <!-- Published Toggle -->
+        <div class="mb-6">
+            <label class="flex items-center space-x-3">
+                {{ form.published }}
+                <span class="label-text font-semibold text-gray-700">Publish this blog</span>
+            </label>
+            {% for error in form.published.errors %}
+            <p class="text-red-500 text-sm">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6">
+            <button type="submit" class="btn btn-primary w-full">
+                {{ submit_text|default:"Publish" }}
+            </button>
+        </div>
+    </form>
+</div>
+
+<br><br><br><br><br>
+
+{% endblock %}

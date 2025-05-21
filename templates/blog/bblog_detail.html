@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future of Web Development: Trends to Watch in 2025 | ModernBlog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .article-content {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .article-content h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid #6366f1;
+            padding-left: 1rem;
+            font-style: italic;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content img {
+            margin: 2rem 0;
+        }
+        
+        .article-content a {
+            color: #4f46e5;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+        }
+        
+        .article-content a:hover {
+            color: #4338ca;
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #6366f1;
+            z-index: 50;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+        
+        /* Code block styling */
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scroll-indicator"></div>
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10 pt-4">
+        <div class="container mx-auto px-4 pb-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-xl font-bold text-indigo-600">ModernBlog</h1>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#" class="font-medium hover:text-indigo-600 transition-colors">Home</a></li>
+                    <li><a href="#" class="font-medium hover:text-indigo-600 transition-colors">Categories</a></li>
+                    <li><a href="#" class="font-medium hover:text-indigo-600 transition-colors">About</a></li>
+                    <li><a href="#" class="font-medium hover:text-indigo-600 transition-colors">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="hidden md:block p-2 text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                <button class="md:hidden focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <article>
+            <!-- Article Header -->
+            <header class="mb-8">
+                <!-- Category and Date -->
+                <div class="flex items-center text-sm mb-4">
+                    <a href="#" class="text-indigo-600 font-semibold hover:text-indigo-800">Technology</a>
+                    <span class="mx-2 text-gray-500">&bull;</span>
+                    <time datetime="2025-05-15" class="text-gray-500">May 15, 2025</time>
+                    <span class="mx-2 text-gray-500">&bull;</span>
+                    <span class="text-gray-500">8 min read</span>
+                </div>
+                
+                <!-- Title -->
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">The Future of Web Development: Trends to Watch in 2025</h1>
+                
+                <!-- Author -->
+                <div class="flex items-center">
+                    <img class="h-12 w-12 rounded-full object-cover" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Alex Johnson">
+                    <div class="ml-3">
+                        <div class="text-sm font-medium text-gray-900">Alex Johnson</div>
+                        <div class="text-sm text-gray-500">Senior Web Developer & Tech Writer</div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Featured Image -->
+            <div class="mb-10">
+                <img class="w-full h-auto rounded-lg shadow-md object-cover" src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80" alt="Web Development Trends" style="max-height: 600px;">
+                <p class="mt-2 text-sm text-gray-500 italic">The web development landscape continues to evolve at a rapid pace</p>
+            </div>
+            
+            <!-- Social Sharing (Floating on Desktop) -->
+            <div class="hidden lg:block fixed left-8 top-1/3 space-y-4">
+                <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </button>
+                <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </button>
+                <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                    </svg>
+                </button>
+                <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                </button>
+                <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Article Content -->
+            <div class="max-w-3xl mx-auto article-content">
+                <p class="text-xl leading-relaxed mb-8">
+                    The web development landscape is constantly evolving, with new technologies, frameworks, and methodologies emerging at a rapid pace. As we move further into 2025, several key trends are shaping how developers build for the web. From AI-assisted coding to new frameworks that prioritize performance, these innovations are changing what's possible online.
+                </p>
+                
+                <h2 class="text-2xl font-bold text-gray-900">1. AI-Powered Development Tools</h2>
+                <p>
+                    Artificial intelligence has made significant inroads into web development workflows. In 2025, AI assistants have become sophisticated enough to handle complex coding tasks, suggest optimizations, and even debug issues with minimal human intervention.
+                </p>
+                <p>
+                    These tools can now generate entire components based on natural language descriptions, analyze performance bottlenecks, and recommend improvements that would have taken hours of manual work in the past.
+                </p>
+                
+                <div class="code-block">
+                    <pre><code>// Example of AI-generated component from a text prompt
+// "Create a responsive navigation bar with dropdown menus"
+
+import { useState } from 'react';
+
+export function NavigationBar({ links }) {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    &lt;nav className="responsive-navbar"&gt;
+      &lt;div className="navbar-brand"&gt;
+        &lt;a href="/"&gt;YourLogo&lt;/a&gt;
+        &lt;button 
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+        &gt;
+          Menu
+        &lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;ul className={`navbar-links ${isOpen ? 'open' : ''}`}&gt;
+        {links.map((link) => (
+          &lt;li key={link.id} className="dropdown"&gt;
+            &lt;a href={link.url}&gt;{link.label}&lt;/a&gt;
+            {link.children && (
+              &lt;ul className="dropdown-menu"&gt;
+                {link.children.map((child) => (
+                  &lt;li key={child.id}&gt;
+                    &lt;a href={child.url}&gt;{child.label}&lt;/a&gt;
+                  &lt;/li&gt;
+                ))}
+              &lt;/ul&gt;
+            )}
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  );
+}</code></pre>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-900">2. WebAssembly Goes Mainstream</h2>
+                <p>
+                    WebAssembly (Wasm) has finally reached widespread adoption in 2025. This binary instruction format provides near-native performance for web applications, enabling developers to build complex applications that run efficiently in the browser.
+                </p>
+                <p>
+                    With improved tooling and framework support, WebAssembly is no longer just for specialized use cases. Developers are now using it for:
+                </p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Graphics-intensive applications and games</li>
+                    <li>Real-time data processing and visualization</li>
+                    <li>Porting desktop applications to the web</li>
+                    <li>Performance-critical sections of otherwise JavaScript-based applications</li>
+                </ul>
+                
+                <figure class="my-8">
+                    <img class="w-full h-auto rounded-lg shadow-md" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Code on a computer screen">
+                    <figcaption class="mt-2 text-sm text-gray-500 italic text-center">WebAssembly enables complex applications to run efficiently in the browser</figcaption>
+                </figure>
+                
+                <h2 class="text-2xl font-bold text-gray-900">3. Edge Computing Transforms Deployment</h2>
+                <p>
+                    The edge computing model has revolutionized how web applications are deployed and delivered. Instead of centralized servers, applications now run on a distributed network of edge nodes located closer to users.
+                </p>
+                <p>
+                    This approach offers several advantages:
+                </p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Dramatically reduced latency for users worldwide</li>
+                    <li>Improved reliability and resilience</li>
+                    <li>Better performance for data-intensive applications</li>
+                    <li>Reduced server costs through more efficient resource utilization</li>
+                </ul>
+                
+                <blockquote class="pl-4 border-l-4 border-indigo-500 italic text-gray-700">
+                    "Edge computing isn't just an optimization—it's a fundamental shift in how we architect web applications. By moving computation closer to users, we're creating experiences that weren't possible with traditional deployment models."
+                    <footer class="mt-2 text-sm font-medium">— Sarah Chen, Cloud Infrastructure Architect</footer>
+                </blockquote>
+                
+                <h2 class="text-2xl font-bold text-gray-900">4. Micro-Frontends for Complex Applications</h2>
+                <p>
+                    As web applications grow in complexity, the micro-frontend architecture has gained significant traction. This approach extends microservice principles to frontend development, allowing teams to build and deploy UI components independently.
+                </p>
+                <p>
+                    In 2025, improved tools and frameworks have made micro-frontends more accessible, with standardized approaches for:
+                </p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Routing and application composition</li>
+                    <li>Shared state management</li>
+                    <li>Consistent styling across independently developed components</li>
+                    <li>Performance optimization across module boundaries</li>
+                </ul>
+                
+                <h2 class="text-2xl font-bold text-gray-900">5. Accessibility as a Core Requirement</h2>
+                <p>
+                    Web accessibility has moved from a nice-to-have feature to a fundamental requirement. In 2025, development tools now include built-in accessibility checks, and frameworks provide accessible components by default.
+                </p>
+                <p>
+                    This shift has been driven by:
+                </p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Stronger legal requirements and enforcement</li>
+                    <li>Improved awareness of accessibility needs</li>
+                    <li>Better tooling that makes accessibility easier to implement</li>
+                    <li>Market pressure as users expect inclusive experiences</li>
+                </ul>
+                
+                <h3 class="text-xl font-bold text-gray-900">Key Accessibility Features Now Standard:</h3>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Keyboard navigation support</li>
+                    <li>Screen reader compatibility</li>
+                    <li>Color contrast compliance</li>
+                    <li>Reduced motion options</li>
+                    <li>Voice control integration</li>
+                </ul>
+                
+                <h2 class="text-2xl font-bold text-gray-900">6. Sustainable Web Development</h2>
+                <p>
+                    Environmental concerns have led to a new focus on sustainable web development practices. Developers are now optimizing for energy efficiency alongside traditional metrics like performance and user experience.
+                </p>
+                <p>
+                    This includes:
+                </p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Optimizing asset sizes and caching strategies</li>
+                    <li>Choosing energy-efficient hosting providers</li>
+                    <li>Implementing "dark mode" by default to reduce screen energy usage</li>
+                    <li>Measuring and reporting carbon impact of web applications</li>
+                </ul>
+                
+                <h2 class="text-2xl font-bold text-gray-900">Conclusion</h2>
+                <p>
+                    The web development landscape of 2025 is characterized by smarter tools, more distributed architectures, and a stronger focus on inclusivity and sustainability. Developers who embrace these trends will be well-positioned to create the next generation of web experiences.
+                </p>
+                <p>
+                    As these technologies continue to evolve, we can expect even more innovation in how we build for the web. The future is bright for developers willing to learn and adapt to these changing paradigms.
+                </p>
+                
+                <!-- Tags -->
+                <div class="mt-10 pt-6 border-t border-gray-200">
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">Tagged with:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors">Web Development</a>
+                        <a href="#" class="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors">AI</a>
+                        <a href="#" class="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors">WebAssembly</a>
+                        <a href="#" class="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors">Edge Computing</a>
+                        <a href="#" class="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors">Accessibility</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Social Sharing -->
+                <div class="lg:hidden mt-8 flex justify-center space-x-4">
+                    <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </button>
+                    <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </button>
+                    <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                        </svg>
+                    </button>
+                    <button class="p-3 bg-white rounded-full shadow-md text-gray-600 hover:text-indigo-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </article>
+        
+        <!-- Author Bio -->
+        <section class="max-w-3xl mx-auto mt-12 p-6 bg-white rounded-lg shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">About the Author</h3>
+            <div class="flex flex-col sm:flex-row items-center sm:items-start">
+                <img class="h-24 w-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Alex Johnson">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">Alex Johnson</h4>
+                    <p class="text-gray-600 mb-4">Alex is a Senior Web Developer with over 10 years of experience building modern web applications. He specializes in frontend architecture and performance optimization, and is passionate about making the web more accessible and sustainable.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Related Posts -->
+        <section class="max-w-5xl mx-auto mt-12">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Related Articles</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Related Post 1 -->
+                <article class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                    <img class="h-48 w-full object-cover" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Blog post image">
+                    <div class="p-6">
+                        <div class="flex items-center text-sm">
+                            <span class="text-indigo-600 font-semibold">Technology</span>
+                            <span class="mx-2 text-gray-500">&bull;</span>
+                            <time datetime="2025-05-10" class="text-gray-500">May 10, 2025</time>
+                        </div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">10 Essential Developer Tools for 2025</h3>
+                        <p class="mt-3 text-gray-600">Discover the must-have tools that are revolutionizing developer workflows and boosting productivity across teams.</p>
+                        <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">Read more →</a>
+                    </div>
+                </article>
+                
+                <!-- Related Post 2 -->
+                <article class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                    <img class="h-48 w-full object-cover" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Blog post image">
+                    <div class="p-6">
+                        <div class="flex items-center text-sm">
+                            <span class="text-indigo-600 font-semibold">Business</span>
+                            <span class="mx-2 text-gray-500">&bull;</span>
+                            <time datetime="2025-05-05" class="text-gray-500">May 5, 2025</time>
+                        </div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">How to Build a Successful Tech Startup in 2025</h3>
+                        <p class="mt-3 text-gray-600">Learn the strategies and pitfalls from successful founders who navigated the competitive tech landscape.</p>
+                        <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">Read more →</a>
+                    </div>
+                </article>
+                
+                <!-- Related Post 3 -->
+                <article class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                    <img class="h-48 w-full object-cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Blog post image">
+                    <div class="p-6">
+                        <div class="flex items-center text-sm">
+                            <span class="text-indigo-600 font-semibold">Development</span>
+                            <span class="mx-2 text-gray-500">&bull;</span>
+                            <time datetime="2025-04-28" class="text-gray-500">April 28, 2025</time>
+                        </div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">Building Accessible Web Applications: A Complete Guide</h3>
+                        <p class="mt-3 text-gray-600">Learn how to make your web applications accessible to everyone, including users with disabilities.</p>
+                        <a href="#" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">Read more →</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <!-- Comments Section -->
+        <section class="max-w-3xl mx-auto mt-12">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Comments (8)</h3>
+            
+            <!-- Comment Form -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h4 class="text-lg font-medium text-gray-900 mb-4">Leave a comment</h4>
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+                        <textarea id="comment" name="comment" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <input type="checkbox" id="save-info" name="save-info" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="save-info" class="ml-2 text-sm text-gray-700">Save my name and email for the next time I comment</label>
+                    </div>
+                    <button type="submit" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Post Comment
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Comments List -->
+            <div class="space-y-6">
+                <!-- Comment 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start space-x-4">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Commenter profile picture">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-md font-medium text-gray-900">Emily Rodriguez</h4>
+                                <time datetime="2025-05-16T09:30" class="text-sm text-gray-500">May 16, 2025 at 9:30 AM</time>
+                            </div>
+                            <p class="mt-2 text-gray-700">Great article! I've been experimenting with WebAssembly for a few months now, and the performance gains are incredible. I'm curious about how you see the relationship between WebAssembly and JavaScript evolving over the next few years.</p>
+                            <div class="mt-2 flex items-center space-x-4">
+                                <button class="text-sm text-gray-500 hover:text-indigo-600">Reply</button>
+                                <button class="text-sm text-gray-500 hover:text-indigo-600 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                    </svg>
+                                    12
+                                </button>
+                            </div>
+                            
+                            <!-- Nested Reply -->
+                            <div class="mt-4 ml-6 pt-4 border-t border-gray-100">
+                                <div class="flex items-start space-x-4">
+                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Commenter profile picture">
+                                    <div>
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-md font-medium text-gray-900">Alex Johnson <span class="text-indigo-600 text-sm">(Author)</span></h4>
+                                            <time datetime="2025-05-16T10:15" class="text-sm text-gray-500">May 16, 2025 at 10:15 AM</time>
+                                        </div>
+                                        <p class="mt-2 text-gray-700">Thanks for your comment, Emily! I think we'll see JavaScript and WebAssembly become more complementary rather than competitive. JavaScript will remain the primary language for most web development, but performance-critical sections will increasingly be offloaded to WebAssembly.</p>
+                                        <div class="mt-2 flex items-center space-x-4">
+                                            <button class="text-sm text-gray-500 hover:text-indigo-600">Reply</button>
+                                            <button class="text-sm text-gray-500 hover:text-indigo-600 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                                </svg>
+                                                8
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Comment 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start space-x-4">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Commenter profile picture">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-md font-medium text-gray-900">Michael Chen</h4>
+                                <time datetime="2025-05-15T16:45" class="text-sm text-gray-500">May 15, 2025 at 4:45 PM</time>
+                            </div>
+                            <p class="mt-2 text-gray-700">I'm particularly interested in the sustainable web development practices you mentioned. Do you have any recommendations for tools that can help measure the carbon impact of web applications?</p>
+                            <div class="mt-2 flex items-center space-x-4">
+                                <button class="text-sm text-gray-500 hover:text-indigo-600">Reply</button>
+                                <button class="text-sm text-gray-500 hover:text-indigo-600 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                    </svg>
+                                    5
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More Comments Link -->
+                <div class="text-center">
+                    <button class="px-6 py-2 border border-gray-300 rounded-md text-indigo-600 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Load More Comments
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Newsletter -->
+        <section class="max-w-4xl mx-auto mt-16 bg-indigo-50 rounded-lg p-8">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Enjoy this article?</h3>
+                <p class="text-gray-600 mb-6">Subscribe to our newsletter to get weekly updates on the latest web development trends, tips, and resources.</p>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center max-w-lg mx-auto">
+                    <input type="email" placeholder="Enter your email" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-grow">
+                    <button type="submit" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Subscribe
+                    </button>
+                </form>
+                <p class="mt-3 text-xs text-gray-500">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">ModernBlog</h3>
+                    <p class="text-gray-400">Delivering insightful content on technology, design, and development since 2023.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Technology</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Programming</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Design</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Business</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Career</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-gray-400">Email us at: <a href="mailto:info@modernblog.com" class="text-indigo-400 hover:text-indigo-300">info@modernblog.com</a></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 ModernBlog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll indicator functionality
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-indicator").style.width = scrolled + "%";
+        });
+    </script>
+</body>
+</html>

@@ -75,20 +75,21 @@
         background-color: #f97316;
         width: 24px;
     }
-    .filter-drawer {
-    position: fixed;
-    right: -100%;
-    width: 80%;
-    background: white;
-    height: 100%;
-    top: 0;
-    transition: right 0.3s ease;
-    z-index: 999;
-}
-.filter-drawer.open {
-    right: 0;
-}
 
+    .filter-drawer {
+        position: fixed;
+        right: -100%;
+        width: 80%;
+        background: white;
+        height: 100%;
+        top: 0;
+        transition: right 0.3s ease;
+        z-index: 999;
+    }
+
+    .filter-drawer.open {
+        right: 0;
+    }
 </style>
 <!-- Banner Slideshow -->
 
@@ -139,69 +140,71 @@
     </script>
 
     <div class="">
-        <form class="input input-bordered rounded-4 flex items-center gap-2" action="" method="get">
+        <form id="search-form" class="input input-bordered rounded-4 flex items-center gap-2"
+            hx-get="{% url 'shop:product_search' %}" hx-target="#search-results" method="get"
+            hx-trigger="change, keyup delay:300ms">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
                 <path fill-rule="evenodd"
                     d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
                     clip-rule="evenodd" />
             </svg>
-            <input type="text" class="grow" placeholder="Search for Burger" />
+            <input type="text" class="grow" name="name" value="{{ request.GET.name }}"
+                placeholder="Search for Burger" />
 
         </form>
     </div>
     <br>
-    <form method="get" id="search-form" hx-get="{% url 'shop:product_search' %}" hx-target="#search-results"
-        hx-trigger="change, keyup delay:300ms">
-        <input type="text" name="name" placeholder="Search for Burger" value="{{ request.GET.name }}"
+    <form method="get">
+        <input type="text" name="name" placeholder="Search for Burger"
             class="input input-bordered rounded-4 flex items-center gap-2" />
 
-            <button class="open-filter">Filters</button>
-<div class="filter-drawer">
-    <form id="search-form" hx-get="{% url 'shop:product_search' %}" hx-target="#search-results">
-        <select name="category">
-            <option value="">All Categories</option>
-            {% for cat in categories %}
-            <option value="{{ cat.id }}">{{ cat.name }}</option>
-            {% endfor %}
-        </select>
+        <button class="open-filter">Filters</button>
+        <div class="filter-drawer">
+            <form id="search-form" hx-get="{% url 'shop:product_search' %}" hx-target="#search-results">
+                <select name="category">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
 
-        <label><input type="checkbox" name="is_vegan" value="1"> Vegan</label>
-        <label><input type="checkbox" name="is_gluten_free" value="1"> Gluten-Free</label>
-        <label><input type="checkbox" name="is_halal" value="1"> Halal</label>
+                <label><input type="checkbox" name="is_vegan" value="1"> Vegan</label>
+                <label><input type="checkbox" name="is_gluten_free" value="1"> Gluten-Free</label>
+                <label><input type="checkbox" name="is_halal" value="1"> Halal</label>
 
-        <label>Ingredients</label>
-        <select id="id_ingredients" name="ingredients" multiple class="select2">
-            {% for ingredient in ingredients %}
-            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
-            {% endfor %}
-        </select>
+                <label>Ingredients</label>
+                <select id="id_ingredients" name="ingredients" multiple class="select2">
+                    {% for ingredient in ingredients %}
+                    <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                    {% endfor %}
+                </select>
 
-        <script>
-            $(document).ready(function () {
-                $('.select2').select2({
-                    placeholder: 'Select ingredients',
-                    allowClear: true
-                });
-            });
-        </script>
+                <script>
+                    $(document).ready(function () {
+                        $('.select2').select2({
+                            placeholder: 'Select ingredients',
+                            allowClear: true
+                        });
+                    });
+                </script>
 
-        <input type="number" name="price_min" placeholder="Min Price">
-        <input type="number" name="price_max" placeholder="Max Price">
+                <input type="number" name="price_min" placeholder="Min Price">
+                <input type="number" name="price_max" placeholder="Max Price">
 
-        <select name="sort_by">
-            <option value="">Sort By</option>
-            <option value="price_asc">Price (Low to High)</option>
-            <option value="price_desc">Price (High to Low)</option>
-            <option value="newest">Newest</option>
-            <option value="name">Name</option>
-            <option value="random">Random</option>
-        </select>
+                <select name="sort_by">
+                    <option value="">Sort By</option>
+                    <option value="price_asc">Price (Low to High)</option>
+                    <option value="price_desc">Price (High to Low)</option>
+                    <option value="newest">Newest</option>
+                    <option value="name">Name</option>
+                    <option value="random">Random</option>
+                </select>
 
-        <button type="submit" class="">Apply</button>
-    </form>
-</div>
+                <button type="submit" class="">Apply</button>
+            </form>
+        </div>
 
-        
+
 
         <button type="submit">Search</button>
     </form>
@@ -214,11 +217,11 @@
         <!-- Add chips for each filter -->
     </div>
 
-<script>
-    document.querySelector('.open-filter').addEventListener('click', function () {
-        document.querySelector('.filter-drawer').classList.toggle('open');
-    });
-</script>
+    <script>
+        document.querySelector('.open-filter').addEventListener('click', function () {
+            document.querySelector('.filter-drawer').classList.toggle('open');
+        });
+    </script>
 
     <br>
     <div id="search-results">
