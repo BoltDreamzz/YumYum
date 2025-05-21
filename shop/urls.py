@@ -17,5 +17,7 @@ urlpatterns = [
     path('product/<int:product_id>/review/', views.post_review, name='post_review'),
     path('review/<int:review_id>/reply/', views.post_reply, name='post_reply'),
 
-
+    path('yum/', views.yum, name='yum'),
+    path('search/', views.product_search, name='product_search'),
+    path('search/<str:query>/', views.product_search, name='product_search_with_query'),
 ]

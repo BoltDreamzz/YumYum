@@ -18,6 +18,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Ingredient(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    # description = models.TextField(blank=True, null=True)
+
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=200)
@@ -27,6 +32,11 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     is_available = models.BooleanField(default=True)
     date_posted = models.DateTimeField(default=timezone.now)  # Add date_posted field
+
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
+    is_vegan = models.BooleanField(default=False, blank=True)
+    is_gluten_free = models.BooleanField(default=False, blank=True)
+    is_halal = models.BooleanField(default=False, blank=True)
 
 
     def save(self, *args, **kwargs):

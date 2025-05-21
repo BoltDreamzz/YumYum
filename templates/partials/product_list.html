@@ -1,0 +1,45 @@
+{%load humanize%}
+
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <!-- Product Card 1 -->
+    {%for p in products%}
+    <div class="overflow-hidden" data-aos="zoom-in-up">
+        <a href="{%url 'shop:product_detail' p.id%}">
+
+            <img src="{{p.image.url}}" alt="Product 1" class="w-full rounded-4 border h-48 object-cover">
+            <div class="p-2">
+                <h2 class="text-lg font-semibold mb-2">{{p.name}}</h2>
+                <!-- <p class="text-gray-600 mb-2">Comfortable and trendy</p> -->
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold dark">₦ {{ p.price|intcomma }}
+                    </span>
+                    <a href="#" class="bg-warning rounded-5 flex justify-center align-items-center h-6 w-6 p-3">
+                        <i class='bx bx-plus'></i>
+                    </a>
+                    <!-- <button class="bg-blue-500 text-white d-flex justify-center align-items-center rounded-5 hover:bg-blue-600">Add to Cart</button> -->
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+
+
+
+    {%empty%}
+    <div class="col-12">
+        <p>No products found matching your criteria.</p>
+    </div>
+    {% endfor %}
+
+
+
+
+
+
+
+
+</div>
+
+
+

@@ -1,93 +1,137 @@
 {% load socialaccount %}
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Register - Papa YumYum</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | PaPa YumYum - Fast Food at Your Fingertips</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Tailwind + DaisyUI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+
+  <div class="w-full max-w-md bg-white rounded-xl shadow-xl overflow-hidden">
+    
+    <!-- Header -->
     <div class="p-6 bg-orange-500 text-white text-center">
       <div class="flex justify-center mb-2">
         <i class="fas fa-utensils text-3xl"></i>
       </div>
-      <h1 class="text-2xl font-bold">FoodDelight</h1>
-      <p class="text-orange-100 mt-1">Delicious meals at your doorstep</p>
+      <h1 class="text-2xl font-bold">PaPa YumYum</h1>
+      <p class="text-orange-100 text-sm mt-1">Fast, Fresh, and Delicious</p>
     </div>
 
+    <!-- Form Section -->
     <div class="p-6">
-      <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Create your account</h2>
+      <h2 class="text-xl font-semibold text-gray-800 text-center mb-6">Create Your Account</h2>
 
       <form method="POST" action="{% url 'account_signup' %}">
         {% csrf_token %}
-        {{ form.non_field_errors }}
+        
+        {% if form.non_field_errors %}
+          <p class="text-red-600 text-sm mb-4">{{ form.non_field_errors }}</p>
+        {% endif %}
 
-        <!-- Loop fields manually for custom design -->
-        {% for field in form %}
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-medium mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="relative">
-              {% if 'email' in field.name %}
-                <i class="fas fa-envelope absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"></i>
-              {% elif 'password' in field.name %}
-                <i class="fas fa-lock absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"></i>
-              {% else %}
-                <i class="fas fa-user absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"></i>
-              {% endif %}
-              {{ field|as_crispy_field }}
-              {% if field.errors %}
-                <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
-              {% endif %}
-            </div>
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+              <i class="fas fa-envelope text-gray-400"></i>
+            </span>
+            <input 
+              type="email" 
+              name="email" 
+              id="email" 
+              value="{{ form.email.value|default_if_none:'' }}" 
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" 
+              placeholder="you@example.com" 
+              required />
           </div>
-        {% endfor %}
+        </div>
 
-        <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-          Create Account
+        <!-- Password1 -->
+        <div class="mb-4">
+          <label for="password1" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+              <i class="fas fa-lock text-gray-400"></i>
+            </span>
+            <input 
+              type="password" 
+              name="password1" 
+              id="password1" 
+              class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" 
+              placeholder="••••••••" 
+              required />
+          </div>
+        </div>
+
+        <!-- Password2 -->
+        <div class="mb-6">
+          <label for="password2" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+              <i class="fas fa-lock text-gray-400"></i>
+            </span>
+            <input 
+              type="password" 
+              name="password2" 
+              id="password2" 
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" 
+              placeholder="••••••••" 
+              required />
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button 
+          type="submit" 
+          class="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-150"
+        >
+          Sign Up
         </button>
       </form>
 
       <!-- Divider -->
-      <div class="relative flex items-center mt-8 mb-6">
+      <div class="relative flex items-center my-6">
         <div class="flex-grow border-t border-gray-300"></div>
-        <span class="flex-shrink mx-4 text-gray-500 text-sm">or sign up with</span>
+        <span class="px-4 text-sm text-gray-500">or</span>
         <div class="flex-grow border-t border-gray-300"></div>
       </div>
 
-      <!-- Social Buttons using django-allauth -->
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        {% providers_media_js %}
-        {% if 'google' in socialaccount_providers %}
-        <a href="{% provider_login_url 'google' process='signup' %}" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+      <!-- Social Login -->
+      <div class="space-y-3">
+        <a href="{% provider_login_url 'google' process='signup' %}" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
           <i class="fab fa-google text-red-500 mr-2"></i>
-          <span class="text-sm font-medium text-gray-700">Google</span>
+          <span class="text-sm font-medium text-gray-700">Continue with Google</span>
         </a>
-        {% endif %}
-        {% if 'facebook' in socialaccount_providers %}
-        <a href="{% provider_login_url 'facebook' process='signup' %}" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-          <i class="fab fa-facebook text-blue-600 mr-2"></i>
-          <span class="text-sm font-medium text-gray-700">Facebook</span>
-        </a>
-        {% endif %}
       </div>
 
-      <!-- Login Link -->
-      <p class="text-center text-gray-600 text-sm">
-        Already have an account?
+      <!-- Footer Login -->
+      <p class="mt-6 text-center text-sm text-gray-600">
+        Already have an account? 
         <a href="{% url 'account_login' %}" class="text-orange-500 font-medium hover:text-orange-600">Log in</a>
       </p>
     </div>
   </div>
 
-  <p class="mt-8 text-center text-gray-500 text-xs">
-    &copy; 2023 FoodDelight. All rights reserved. v1.0.2
-  </p>
+  <!-- App Version -->
+  <p class="mt-6 text-center text-gray-400 text-xs">&copy; 2023 PaPa YumYum. All rights reserved. v1.0.2</p>
+
 </body>
 </html>

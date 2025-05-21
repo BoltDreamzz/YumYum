@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load query_transform %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Search Our Menu</h2>
+
+    <!-- Toggle button for mobile -->
+    <button class="btn btn-outline-primary d-md-none mb-3 open-filter">Show Filters</button>
+
+    <!-- Filter drawer/sidebar -->
+    <div class="filter-drawer p-3 border rounded bg-light">
+        <form id="search-form" method="get"
+              hx-get="{% url 'shop:product_search' %}"
+              hx-target="#search-results"
+              hx-trigger="change, keyup delay:300ms">
+
+            <div class="form-group mb-2">
+                <input type="text" name="name" class="form-control" placeholder="Search by name"
+                       value="{{ request.GET.name|default_if_none:'' }}">
+            </div>
+
+            <div class="form-group mb-2">
+                <select name="category" class="form-control">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group mb-2">
+                <label>Ingredients</label>
+                <select name="ingredients" multiple class="form-control select2" id="id_ingredients">
+                    {% for ingredient in ingredients %}
+                        <option value="{{ ingredient.id }}"
+                            {% if ingredient.id|stringformat:"s" in request.GET.getlist("ingredients") %}selected{% endif %}>
+                            {{ ingredient.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" name="is_vegan" class="form-check-input" id="vegan" {% if request.GET.is_vegan %}checked{% endif %}>
+                <label for="vegan" class="form-check-label">Vegan</label>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" name="is_gluten_free" class="form-check-input" id="gluten" {% if request.GET.is_gluten_free %}checked{% endif %}>
+                <label for="gluten" class="form-check-label">Gluten-Free</label>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" name="is_halal" class="form-check-input" id="halal" {% if request.GET.is_halal %}checked{% endif %}>
+                <label for="halal" class="form-check-label">Halal</label>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <input type="number" name="price_min" class="form-control" placeholder="Min Price"
+                           value="{{ request.GET.price_min }}">
+                </div>
+                <div class="col">
+                    <input type="number" name="price_max" class="form-control" placeholder="Max Price"
+                           value="{{ request.GET.price_max }}">
+                </div>
+            </div>
+
+            <div class="form-group mt-2">
+                <select name="sort_by" class="form-control">
+                    <option value="">Sort By</option>
+                    <option value="price_asc" {% if request.GET.sort_by == "price_asc" %}selected{% endif %}>Price (Low to High)</option>
+                    <option value="price_desc" {% if request.GET.sort_by == "price_desc" %}selected{% endif %}>Price (High to Low)</option>
+                    <option value="newest" {% if request.GET.sort_by == "newest" %}selected{% endif %}>Newest</option>
+                    <option value="name" {% if request.GET.sort_by == "name" %}selected{% endif %}>Name</option>
+                    <option value="random" {% if request.GET.sort_by == "random" %}selected{% endif %}>Random</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+        </form>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="mt-3">
+        {% if request.GET %}
+            <strong>Active Filters:</strong>
+            {% for key, value in request.GET.items %}
+                {% if value and key != 'csrfmiddlewaretoken' %}
+                    <span class="badge badge-secondary mr-1">
+                        {{ key|capfirst }}: {{ value }}
+                        <a href="?{% query_transform request.GET key %}" class="text-light ml-1">&times;</a>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- AJAX Search Results -->
+    <div id="search-results" class="mt-4">
+        {% include 'shop/partials/product_list.html' %}
+    </div>
+</div>
+
+<!-- Drawer toggle JS -->
+<script>
+    document.querySelector('.open-filter').addEventListener('click', function () {
+        document.querySelector('.filter-drawer').classList.toggle('open');
+    });
+</script>
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        $('.select2').select2({
+            placeholder: "Select ingredients",
+            allowClear: true
+        });
+    });
+</script>
+
+<!-- Optional basic CSS -->
+<style>
+    .filter-drawer {
+        position: fixed;
+        right: -100%;
+        width: 85%;
+        background: white;
+        height: 100%;
+        top: 0;
+        transition: right 0.3s ease;
+        z-index: 9999;
+        overflow-y: auto;
+    }
+    .filter-drawer.open {
+        right: 0;
+    }
+    .badge a {
+        text-decoration: none;
+        margin-left: 5px;
+    }
+</style>
+{% endblock %}

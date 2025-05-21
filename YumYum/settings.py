@@ -58,13 +58,13 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGIN_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/'
 
-# Optional: Make Allauth use custom template
-ACCOUNT_FORMS = {
-    'login': 'accounts.forms.CustomLoginForm',
-}
+# # Optional: Make Allauth use custom template
+# ACCOUNT_FORMS = {
+#     'login': 'accounts.forms.CustomLoginForm',
+# }
 
 
 MIDDLEWARE = [

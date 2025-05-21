@@ -6,6 +6,7 @@ import qrcode
 from django.shortcuts import render
 from django.http import HttpResponse
 from io import BytesIO
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -17,6 +18,8 @@ def index(request):
         'products': products,
     })
     
+
+@login_required(login_url='/accounts/login/')
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = CartItemForm()
@@ -298,8 +301,13 @@ from django.template.loader import render_to_string
 #     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def post_review(request, product_id):
+
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'login_required': True, 'error': 'You must be logged in to post a review.'})
+
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id)
         user = request.user
@@ -343,3 +351,72 @@ def post_reply(request, review_id):
             return JsonResponse({'message': 'Reply posted successfully!', 'html': html, 'review_id': review_id}, status=200)
         return JsonResponse({'error': 'Invalid form data.'}, status=400)
     return JsonResponse({'error': 'Only POST allowed'}, status=405)
+
+
+
+def yum(request):
+    return render(request, 'shop/yum.html')
+
+
+from django.db.models import Q
+from .models import Product
+
+def product_search(request):
+    queryset = Product.objects.filter(is_available=True)
+
+    name = request.GET.get('name')
+    category = request.GET.get('category')
+    ingredients = request.GET.getlist('ingredients')
+    is_vegan = request.GET.get('is_vegan')
+    is_gluten_free = request.GET.get('is_gluten_free')
+    is_halal = request.GET.get('is_halal')
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    sort_by = request.GET.get('sort_by')
+
+    if name:
+        queryset = queryset.filter(name__icontains=name)
+
+    if category:
+        queryset = queryset.filter(category__id=category)
+
+    if ingredients:
+        queryset = queryset.filter(ingredients__id__in=ingredients).distinct()
+
+    if is_vegan:
+        queryset = queryset.filter(is_vegan=True)
+
+    if is_gluten_free:
+        queryset = queryset.filter(is_gluten_free=True)
+
+    if is_halal:
+        queryset = queryset.filter(is_halal=True)
+
+    if price_min:
+        queryset = queryset.filter(price__gte=price_min)
+
+    if price_max:
+        queryset = queryset.filter(price__lte=price_max)
+
+    if sort_by == 'price_asc':
+        queryset = queryset.order_by('price')
+    elif sort_by == 'price_desc':
+        queryset = queryset.order_by('-price')
+    elif sort_by == 'newest':
+        queryset = queryset.order_by('-date_posted')
+    elif sort_by == 'name':
+        queryset = queryset.order_by('name')
+    elif sort_by == 'random':
+        queryset = queryset.order_by('?')
+
+    if request.GET:
+        request.session['last_search'] = request.GET.dict()
+
+    filters = request.session.get('last_search', {})
+
+    if request.htmx:
+        return render(request, 'partials/product_list.html', {'products': queryset})
+    return render(request, 'shop/product_search.html', {'products': queryset, 'filters': filters})
+
+    context = {'products': queryset}
+    return render(request, 'shop/product_search.html', context)
