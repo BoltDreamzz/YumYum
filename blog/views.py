@@ -12,6 +12,8 @@ def blog_list(request):
     blogs = Blog.objects.filter(published=True)
     return render(request, 'blog/blog_list.html', {'blogs': blogs})
 
+
+
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
     return render(request, 'blog/blog_detail.html', {'blog': blog})

@@ -163,42 +163,10 @@
             </div>
 
             <!-- 🧰 Filter Drawer -->
-            <div class="filter-drawer hidden flex flex-col gap-2 pt-4">
-                TemplateSyntaxError at /
-                Could not parse some characters: selected_category|==cat.id||stringformat:"s"
-                Request Method: GET
-                Request URL: http://127.0.0.1:8000/
-                Django Version: 5.1.2
-                Exception Type: TemplateSyntaxError
-                Exception Value:
-                Could not parse some characters: selected_category|==cat.id||stringformat:"s"
-                Exception Location: C:\Users\PRO\OneDrive\Desktop\YumYum\venv\Lib\site-packages\django\template\base.py,
-                line 678, in __init__
-                Raised during: shop.views.index
-                Python Executable: C:\Users\PRO\OneDrive\Desktop\YumYum\venv\Scripts\python.exe
-                Python Version: 3.13.1
-                Python Path:
-                ['C:\\Users\\PRO\\OneDrive\\Desktop\\YumYum',
-                'C:\\Users\\PRO\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip',
-                'C:\\Users\\PRO\\AppData\\Local\\Programs\\Python\\Python313\\DLLs',
-                'C:\\Users\\PRO\\AppData\\Local\\Programs\\Python\\Python313\\Lib',
-                'C:\\Users\\PRO\\AppData\\Local\\Programs\\Python\\Python313',
-                'C:\\Users\\PRO\\OneDrive\\Desktop\\YumYum\\venv',
-                'C:\\Users\\PRO\\OneDrive\\Desktop\\YumYum\\venv\\Lib\\site-packages']
-                Server time: Thu, 22 May 2025 10:07:44 +0000
-                Error during template rendering
-                In template C:\Users\PRO\OneDrive\Desktop\YumYum\templates\shop\index.html, error at line 170
-
-                Could not parse some characters: selected_category|==cat.id||stringformat:"s"
-                160 d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5
-                0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3
-                0m-9.75 0h9.75" />
-                161 </svg>
-                162 </button>
-                163 </div>
-            164
-            165 <!-- 🧰 Filter Drawer -->
-            166 <div class="filter-drawer hidden flex flex-col gap-2 pt-4">
+            
+            
+             <!-- 🧰 Filter Drawer -->
+             <div class="filter-drawer hidden flex flex-col gap-2 pt-4">
                 167 <select name="category">
                     168 <option value="">All Categories</option>
                     169 {% for cat in categories %}
