@@ -3,6 +3,10 @@ from .models import Blog
 from .forms import BlogForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from profiles.models import UserProfile  # Adjust import as needed
+
+
 
 def blog_list(request):
     blogs = Blog.objects.filter(published=True)
@@ -18,18 +22,26 @@ def blog_create(request):
         form = BlogForm(request.POST, request.FILES)
         if form.is_valid():
             blog = form.save(commit=False)
-            blog.author = request.user
+
+            # 🔐 Try to get or create the user profile
+            user = request.user
+            try:
+                user_profile = user.userprofile
+            except UserProfile.DoesNotExist:
+                user_profile = UserProfile.objects.create(user=user)
+
+            blog.author = user_profile
             blog.save()
             messages.success(request, 'Blog post created successfully!')
             return redirect('blog:blog_detail', slug=blog.slug)
     else:
         form = BlogForm()
+
     return render(request, 'blog/blog_form.html', {
         'form': form,
         'title': 'Create Blog Post',
         'submit_text': 'Publish'
     })
-
 
 @login_required
 def blog_edit(request, slug):

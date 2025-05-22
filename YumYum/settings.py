@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'blog',
     'tinymce',
 
+    'profiles.apps.ProfilesConfig',
+
 
 
 ]
@@ -55,6 +57,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+LOGIN_URL = 'account_login'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_METHODS = {'email'}

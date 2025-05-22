@@ -5,6 +5,7 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from profiles.models import UserProfile
 
 class Blog(models.Model):
     title = models.CharField(max_length=255)
@@ -12,7 +13,7 @@ class Blog(models.Model):
     image = models.ImageField(upload_to='blog_images/', null=True, blank=True)
     slug = models.SlugField(unique=True)
     content = HTMLField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)

@@ -7,17 +7,79 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
-
+from .models import Ingredient
 
 # Create your views here.
+from django.db.models import Q
+from .models import Product, Category, Ingredient
+
 def index(request):
     categories = Category.objects.all()
+    ingredients = Ingredient.objects.all()
+
+    # Get filter values
+    search_query = request.GET.get('q', '')
+    selected_category = request.GET.get('category', '')
+    selected_ingredients = request.GET.getlist('ingredients')
+    is_vegan = request.GET.get('is_vegan')
+    is_gluten_free = request.GET.get('is_gluten_free')
+    is_halal = request.GET.get('is_halal')
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    sort_by = request.GET.get('sort_by')
+
+    # Start with all products
     products = Product.objects.all()
+
+    # Filter by search keyword
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) | Q(description__icontains=search_query)
+        )
+
+    # Filter by category
+    if selected_category:
+        products = products.filter(category_id=selected_category)
+
+    # Filter by ingredients
+    if selected_ingredients:
+        products = products.filter(ingredients__in=selected_ingredients).distinct()
+
+    # Filter by checkboxes
+    if is_vegan:
+        products = products.filter(is_vegan=True)
+    if is_gluten_free:
+        products = products.filter(is_gluten_free=True)
+    if is_halal:
+        products = products.filter(is_halal=True)
+
+    # Filter by price
+    if price_min:
+        products = products.filter(price__gte=price_min)
+    if price_max:
+        products = products.filter(price__lte=price_max)
+
+    # Sort
+    if sort_by == "price_asc":
+        products = products.order_by("price")
+    elif sort_by == "price_desc":
+        products = products.order_by("-price")
+    elif sort_by == "newest":
+        products = products.order_by("-created_at")  # Assuming your model has `created_at`
+    elif sort_by == "name":
+        products = products.order_by("name")
+    elif sort_by == "random":
+        products = products.order_by("?")
+
     return render(request, 'shop/index.html', {
         'categories': categories,
+        'ingredients': ingredients,
         'products': products,
+        'selected_category': selected_category,
+        'selected_ingredients': selected_ingredients,
+        'request': request,  # Pass request to use request.GET in the template
     })
-    
+
 
 @login_required(login_url='/accounts/login/')
 def product_detail(request, product_id):
@@ -418,5 +480,4 @@ def product_search(request):
         return render(request, 'partials/product_list.html', {'products': queryset})
     return render(request, 'shop/product_search.html', {'products': queryset, 'filters': filters})
 
-    context = {'products': queryset}
-    return render(request, 'shop/product_search.html', context)
+    

@@ -1,31 +1,63 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
+{%block title%}Blog Post{% endblock%}
+{% block meta %}
+<meta name="description" content="{{ blog.title }} - {{ blog.content|truncatewords:30 }}">
+<meta name="keywords" content="{{ blog.category }}">
+<meta property="og:title" content="{{ blog.title }}">
+<meta property="og:description" content="{{ blog.content|truncatewords:30 }}">
+<meta property="og:image" content="{{ blog.image.url }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% endblock %}
 
 {% block content %}
-  <article class="prose max-w-full mx-auto bg-white p-6 rounded-lg shadow-md relative">
-    <div class="mb-4">
-      <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
-      <p class="text-gray-500 text-sm">
-        By {{ blog.author }} • {{ blog.created_at|date:"F j, Y" }}
-      </p>
+<article class="prose max-w-full mx-auto bg-white p-6 rounded-lg shadow-md relative">
+  <div class="mb-4">
+    <div class="breadcrumbs text-sm">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{%url 'blog:blog_list'%}">Blog</a></li>
+        <li>{{blog.title|truncatewords:5}}</li>
+      </ul>
     </div>
+    <br>
+    <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
+    <p class="text-gray-500 text-sm my-2">
+      By {{blog.author.user.username}} • {{ blog.created_at|date:"F j, Y" }}
+      {%if blog.author.user == request.user%}
+      <a href="{% url 'blog:blog_edit' slug=blog.slug %}"
+        class="text-sm flex items-center text-blue-500 btn btn-ghost"><svg xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3 mr-1">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+        </svg>
+        Edit this post</a>
+      {%endif%}
+    </p>
+  </div>
 
-    <!-- Reader Progress Bar -->
-    <div class="fixed top-0 left-0 h-1 bg-orange-500 z-50" id="progress-bar"></div>
+  <!-- Reader Progress Bar -->
+  <div class="fixed top-0 left-0 h-1 bg-orange-500 z-50" id="progress-bar"></div>
 
-    <!-- Blog Content -->
-    <div id="blog-content">
-      {{ blog.content|safe }}
+  <!-- Blog Content -->
+  <div id="blog-content">
+    {%if blog.image%}
+    <div class="flex">
+      <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-48 object-cover rounded-lg shadow-md">
     </div>
-  </article>
+    {%endif%}
+    <br>
+    {{ blog.content|safe }}
+  </div>
+</article>
 
-  <script>
-    // Reading Progress Bar Logic
-    document.addEventListener('scroll', function () {
-      const content = document.getElementById('blog-content');
-      const progress = document.getElementById('progress-bar');
-      const totalHeight = content.scrollHeight - window.innerHeight;
-      const progressHeight = (window.scrollY / totalHeight) * 100;
-      progress.style.width = progressHeight + '%';
-    });
-  </script>
+<script>
+  // Reading Progress Bar Logic
+  document.addEventListener('scroll', function () {
+    const content = document.getElementById('blog-content');
+    const progress = document.getElementById('progress-bar');
+    const totalHeight = content.scrollHeight - window.innerHeight;
+    const progressHeight = (window.scrollY / totalHeight) * 100;
+    progress.style.width = progressHeight + '%';
+  });
+</script>
 {% endblock %}
