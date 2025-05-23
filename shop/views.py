@@ -80,11 +80,16 @@ def index(request):
         'request': request,  # Pass request to use request.GET in the template
     })
 
+from profiles.models import UserProfile
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 @login_required(login_url='/accounts/login/')
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = CartItemForm()
+
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     # Get product reviews and their replies
     reviewd = product.reviews.select_related('user').prefetch_related('replies__user')

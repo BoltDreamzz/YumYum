@@ -1,0 +1,15 @@
+{% extends "partials/base.html" %}
+
+{% block content %}
+  <h2>Login with Social Account</h2>
+  <p>Select a provider to sign in:</p>
+  <ul>
+    {% for provider in socialaccount_providers %}
+      <li>
+        <a href="{% provider_login_url provider.id process=process %}">
+          <button>Login with {{ provider.name }}</button>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
