@@ -20,4 +20,6 @@ urlpatterns = [
     path('yum/', views.yum, name='yum'),
     path('search/', views.product_search, name='product_search'),
     path('search/<str:query>/', views.product_search, name='product_search_with_query'),
+    path('start-payment/', views.initiate_payment, name='start_payment'),
+    path('verify-payment/', views.verify_payment, name='verify_payment'),
 ]

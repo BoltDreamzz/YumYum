@@ -101,13 +101,14 @@ class OrderItem(models.Model):
 
 
 class Payment(models.Model):
-    session_key = models.CharField(max_length=40, blank=True, null=True)
-    payment_reference = models.CharField(max_length=100)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
+    payment_reference = models.CharField(max_length=100, unique=True)
     payment_screenshot = models.ImageField(upload_to='payments/', blank=True, null=True)
+    session_key = models.CharField(max_length=40, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Payment {self.payment_reference} for session {self.session_key}"
+        return f"Payment {self.payment_reference}"
 
 
 class Review(models.Model):

@@ -174,3 +174,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+PAYSTACK_PUBLIC_KEY = 'pk_live_d0f0fac7a98439f0e5a35a43ab0367a1da03a198'
+PAYSTACK_SECRET_KEY = 'sk_live_fc3fe89312663726b3ef2a3ef062ba22edc3708e'
+PAYSTACK_BASE_URL = 'https://api.paystack.co'
+ADMIN_EMAIL = 'skiiidawg34@gmail.com'
+DEFAULT_FROM_EMAIL = 'noreply@papayumyum.com'

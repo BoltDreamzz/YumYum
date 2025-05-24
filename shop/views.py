@@ -176,13 +176,27 @@ def cart_remove(request, product_id):
 # shop/views.py
 from .forms import CartItemForm
 
+# views.py
+from django.conf import settings
+from .cart import Cart  # or from your app if it's in another place
+
 def cart_detail(request):
     cart = Cart(request)
     count = len(cart)
-    
+
+    total = cart.get_total_price()  # Assuming get_total_price is defined
+
     for item in cart:
         item['update_quantity_form'] = CartItemForm(initial={'quantity': item['quantity'], 'update': True})
-    return render(request, 'shop/cart_detail.html', {'cart': cart, 'count': count,})
+
+    context = {
+        'cart': cart,
+        'count': count,
+        'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
+        'total_amount': int(total * 100),  # convert to kobo
+    }
+
+    return render(request, 'shop/cart_detail.html', context)
 
 
 from django.http import JsonResponse
@@ -486,3 +500,116 @@ def product_search(request):
     return render(request, 'shop/product_search.html', {'products': queryset, 'filters': filters})
 
     
+
+import requests
+from django.conf import settings
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.http import JsonResponse
+from .models import Payment, Order, OrderItem, Product, DeliveryAddress
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def initiate_payment(request):
+    if request.method == 'POST':
+        email = request.user.email
+        amount = int(float(request.POST.get('amount')) * 100)  # convert to kobo
+
+        headers = {
+            "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+            "Content-Type": "application/json",
+        }
+
+        data = {
+            "email": email,
+            "amount": amount,
+            "callback_url": request.build_absolute_uri('/verify-payment/')
+        }
+
+        response = requests.post('https://api.paystack.co/transaction/initialize', json=data, headers=headers)
+        res_data = response.json()
+
+        if res_data.get('status'):
+            return redirect(res_data['data']['authorization_url'])
+        else:
+            messages.error(request, "Payment initialization failed.")
+            return redirect('shop:cart_detail')  # Change to your cart view
+
+    return render(request, 'shop/initiate_payment.html')
+
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
+@login_required
+def verify_payment(request):
+    reference = request.GET.get('reference')
+    user = request.user
+    cart = Cart(request)
+
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"
+    }
+
+    url = f"https://api.paystack.co/transaction/verify/{reference}"
+    response = requests.get(url, headers=headers)
+    res_data = response.json()
+
+    if res_data['status'] and res_data['data']['status'] == 'success':
+        total = res_data['data']['amount'] / 100
+
+        # Create order
+        order = Order.objects.create(user=user, total=total, status='completed')
+
+        # Save each cart item to OrderItem
+        for item in cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                quantity=item['quantity'],
+                price=item['price']
+            )
+
+        # Save payment
+        Payment.objects.create(payment_reference=reference)
+
+        # Clear cart
+        cart.clear()
+
+        # Send Order Confirmation Email to User using template
+        user_subject = 'Order Confirmation'
+        user_message = render_to_string('emails/order_confirmation.html', {
+            'user': user,
+            'order': order,
+        })
+        user_email = EmailMessage(
+            subject=user_subject,
+            body=user_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[user.email],
+        )
+        user_email.content_subtype = 'html'
+        user_email.send()
+
+        # Send New Order Notification to Admin using template
+        admin_subject = 'New Order Placed'
+        admin_message = render_to_string('emails/new_order_notification.html', {
+            'user': user,
+            'order': order,
+        })
+        admin_email = EmailMessage(
+            subject=admin_subject,
+            body=admin_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.ADMIN_EMAIL],
+        )
+        admin_email.content_subtype = 'html'
+        admin_email.send()
+
+        messages.success(request, 'Payment verified. Order placed successfully!')
+        return redirect('shop:order_detail', order_id=order.id)
+    else:
+        messages.error(request, 'Payment verification failed. Try again.')
+        return redirect('shop:cart_detail')

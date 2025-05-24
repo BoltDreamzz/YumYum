@@ -109,14 +109,36 @@
 
 
     </div>
+    <!-- Include Paystack JS -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
     <div class="text-center my-3">
-        <a href="{% url 'shop:checkout' %}"
-            class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5">Checkout</a>
+        <button type="button" class="bg-warning d-flex justify-center align-items-center w-full btn btn-lg rounded-5"
+            onclick="payWithPaystack()">Checkout & Pay</button>
     </div>
+
+    <script>
+        function payWithPaystack() {
+            let handler = PaystackPop.setup({
+                key: '{{ paystack_public_key }}',
+                email: '{{ request.user.email }}',
+                amount: {{ total_amount }},
+        currency: 'NGN',
+            callback: function(response) {
+                // Redirect to verification URL with reference
+                window.location.href = "{% url 'shop:verify_payment' %}?reference=" + response.reference;
+            },
+        onClose: function() {
+            alert('Payment window closed.');
+        }
+        });
+        handler.openIframe();
+    };
+    </script>
 </div>
 {% else %}
 <div class="d-flex my-3 h-48 justify-content-center align-items-center flex-column">
-    <i class='bx bx-message-alt-x text-it display-4' ></i>
+    <i class='bx bx-message-alt-x text-it display-4'></i>
     <p>Your cart is empty.</p>
 
 </div>
