@@ -9,6 +9,8 @@ class Category(models.Model):
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     # description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    icon_svg = models.TextField(help_text="eg 'bx bxs-pizza'", blank=True, null=True)
+
 
     def save(self, *args, **kwargs):
         if not self.slug:

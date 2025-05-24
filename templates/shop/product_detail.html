@@ -530,8 +530,47 @@
 </script>
 
 
-<br><br>
+{% if related_products %}
 
+<div class="d-flex flex-col">
+    <h2 class="h4 font-bold mb-4">
+        You may also like
+    </h2>
+
+
+    <!-- Review Form -->
+    
+    <br>
+
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for p in related_products %}
+    <div class="overflow-hidden" data-aos="zoom-in-up">
+        <a href="{% url 'shop:product_detail' p.id %}">
+            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="w-full rounded-4 border h-48 object-cover">
+            <div class="p-2">
+                <h2 class="text-lg font-semibold mb-2">{{ p.name }}</h2>
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold">₦{{ p.price|intcomma }}</span>
+                    <a href="#" class="bg-warning rounded-5 flex justify-center align-items-center h-6 w-6 p-3">
+                        <i class='bx bx-plus'></i>
+                    </a>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+    
+
+
+</div>
+<hr>
+{% else %}
+<p class="text-center text-gray-500">Related products will show here.</p>
+{% endif %}
+
+<br><br>
+<br><br><br>
 
 
 {%endblock%}

@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from profiles.models import UserProfile
 
+
+
 class Blog(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=100, null=True, blank=True)
@@ -24,8 +26,24 @@ class Blog(models.Model):
     focus_keyword = models.CharField(max_length=100, help_text="Main keyword for SEO", blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if self.pk:
+            old = Blog.objects.get(pk=self.pk)
+            if old.title != self.title:
+                # Title changed — store old slug
+                BlogSlugHistory.objects.create(blog=self, old_slug=old.slug)
+                self.slug = slugify(self.title)
+        else:
+            # New blog post
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
+
+
+class BlogSlugHistory(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name="slug_history")
+    old_slug = models.SlugField()
+
+    def __str__(self):
+        return f"{self.old_slug} → {self.blog.slug}"

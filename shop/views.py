@@ -87,6 +87,7 @@ from django.contrib.auth.models import User
 @login_required(login_url='/accounts/login/')
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    # related_products = Product.objects.filter(category=product.category).exclude(id=product.id)
     form = CartItemForm()
 
     profile, created = UserProfile.objects.get_or_create(user=request.user)
