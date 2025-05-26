@@ -138,13 +138,13 @@
         video.playbackRate = 0.25; // Set the speed (0.5 is half-speed, 1 is normal speed)
     </script>
 
-    <div class="">
-        <form id="search-form" class="input input-bordered rounded-4 flex flex-col gap-4"
+    
+        <form id="search-form" class="input input-bordered rounded-4 flex flex-col gap-4 pt-auto"
             hx-get="{% url 'shop:product_search' %}" hx-target="#search-results" method="get"
             hx-trigger="keyup delay:300ms, change from:input:not([type=checkbox]):not([type=radio]), submit">
 
             <!-- 🔍 Search Bar -->
-            <div class="flex items-center gap-2">
+            <div class="flex items-center justify-center gap-2 p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="currentColor"
                     viewBox="0 0 16 16">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -161,7 +161,7 @@
             <!-- 🧰 Filter Drawer -->
             
         </form>
-    </div>
+   
     <br>
 
 
@@ -1496,9 +1496,7 @@ fill="currentColor" viewBox="0 0 24 24" >
 
 
         </div>
-        <div class="overflow-x-auto pb-4">
-
-        </div>
+        
     </div>
 
     <!-- Special Offers -->
@@ -1521,7 +1519,7 @@ fill="currentColor" viewBox="0 0 24 24" >
                         <h3 class="font-bold text-gray-800 mb-1">Free Delivery on Your First 3 Orders</h3>
                         <p class="text-gray-600 text-sm mb-3">Use code: WELCOME3 at checkout</p>
                         <button disabled
-                            class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                            class="bg-[#F7D813] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#F7D813]/20 transition-colors">
                             Coming soon
                         </button>
                     </div>
@@ -1542,7 +1540,7 @@ fill="currentColor" viewBox="0 0 24 24" >
                         <h3 class="font-bold text-gray-800 mb-1">30% Off Family Meal Bundles</h3>
                         <p class="text-gray-600 text-sm mb-3">Perfect for 4-6 people. Available daily after 4PM.</p>
                         <button disabled
-                            class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                            class="bg-[#F7D813] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#F7D813]/20 transition-colors">
                             Coming soon
                         </button>
                     </div>
